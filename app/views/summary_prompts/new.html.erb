@@ -1,0 +1,11 @@
+<h1>Create a new summary prompt</h1>
+
+<div class="card">
+  <%= simple_form_for @summary_prompt do |f| %>
+    <%= f.input :name, label: "Title" %>
+    <%= f.input :content, label: "Prompt" %>
+    <%= f.submit "Add prompt", class: "btn btn-light" %>
+  <% end %>
+</div>
+
+<%= link_to "Back", summary_prompts_path, class: "btn btn-light" %>
