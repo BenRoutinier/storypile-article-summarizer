@@ -1,0 +1,20 @@
+
+      <div class="col-12 col-lg-4">
+        <div class="position-relative h-100">
+
+            <%= button_to article_path(article),
+                method: :delete,
+                class: "position-absolute top-0 end-0 m-2 px-1 rounded-3 border-0 bg-danger text-white z-3 mobile-action-btn",
+                form: { data: { turbo_confirm: 'Are you sure?' } } do %>
+              <i class="fa-solid fa-trash"></i>
+            <% end %>
+
+          <%= link_to article_path(article), class: "text-decoration-none text-reset" do %>
+            <div class="card h-100 shadow-sm">
+              <div class="card-body">
+                <h5 class="card-title"><%= article.headline %></h5>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>

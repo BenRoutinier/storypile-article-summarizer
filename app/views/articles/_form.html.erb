@@ -1,0 +1,23 @@
+<%= simple_form_for(article, html: { class: "row g-3" }) do |f| %>
+
+  <div class="col-12 col-md-6">
+    <%= f.input :link,
+                as: :url,
+                label: "Article Link",
+                input_html: { placeholder: "https://example.com/article" } %>
+  </div>
+
+  <div class="col-12 col-md-6">
+    <%= f.input :summary_prompt_id,
+                collection: current_user.summary_prompts,
+                label_method: :name,        # or :title, depending on your SummaryPrompt model
+                value_method: :id,
+                include_blank: "None",
+                label: "Summary Prompt (optional)" %>
+  </div>
+
+  <!-- Submit Button -->
+  <div class="col-12 d-flex">
+    <%= f.button :submit, "Add Article", class: "btn btn-primary" %>
+  </div>
+<% end %>

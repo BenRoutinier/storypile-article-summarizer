@@ -1,0 +1,17 @@
+<div class="container my-4">
+
+  <div class="card mb-4 col-12 col-md-6">
+    <div class="card-body">
+      <h5 class="card-title">Add a New Article</h5>
+
+      <%= render "form", article: Article.new %>
+    </div>
+  </div>
+
+  <div class="row g-3">
+    <% @articles.each do |article| %>
+      <%= render "articlecard", article: article %>
+    <% end %>
+  </div>
+
+</div>
