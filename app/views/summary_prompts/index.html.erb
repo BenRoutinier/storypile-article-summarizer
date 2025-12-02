@@ -1,0 +1,20 @@
+<h1>My summary prompts</h1>
+
+<%= link_to "New summary prompt", new_summary_prompt_path, class: "btn btn-light" %>
+
+<% if @summary_prompt.any? %>
+  <% @summary_prompt.each do |summary_prompt| %>
+  <div class="card">
+    <h3><%= summary_prompt.name %></h3>
+    <p><%= summary_prompt.content %></p>
+    <%= link_to "Delete prompt",
+                  summary_prompt_path(summary_prompt),
+                  data: {
+                    turbo_method: :delete,
+                    turbo_confirm: "Are you sure?"
+                  },
+                  class: "btn btn-light" %>
+  <% end %>
+<% else %>
+  <p>No summary prompt yet</p>
+<% end %>
