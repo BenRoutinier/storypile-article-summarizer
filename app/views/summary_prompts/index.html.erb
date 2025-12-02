@@ -2,8 +2,8 @@
 
 <%= link_to "New summary prompt", new_summary_prompt_path, class: "btn btn-light" %>
 
-<% if @summary_prompt.any? %>
-  <% @summary_prompt.each do |summary_prompt| %>
+<% if @summary_prompts.any? %>
+  <% @summary_prompts.each do |summary_prompt| %>
   <div class="card">
     <h3><%= summary_prompt.name %></h3>
     <p><%= summary_prompt.content %></p>
