@@ -1,0 +1,25 @@
+<div class="container my-4">
+
+  <h1 class="mb-3"><%= @article.headline %></h1>
+
+  <% if @article.summary.present? %>
+    <div class="card mb-4">
+      <div class="card-body">
+        <h5 class="card-title">Naive Summary (three longest sentences)</h5>
+        <p class="card-text"><%= simple_format(@article.summary) %></p>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Full Article</h5>
+      <%= simple_format(@article.body) %>
+    </div>
+  </div>
+
+  <div class="mt-4">
+    <%= link_to "Back to Articles", articles_path, class: "btn btn-secondary" %>
+  </div>
+
+</div>

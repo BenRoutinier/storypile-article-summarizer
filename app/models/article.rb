@@ -1,6 +1,49 @@
+require 'nokogiri'
+
 class Article < ApplicationRecord
   belongs_to :user
   belongs_to :summary_prompt, optional: true
   has_many :conversations, dependent: :destroy
-  validates :link, presence: true, uniqueness: true
+  validates :link,
+            presence: true,
+            uniqueness: true,
+            format: { with: URI::DEFAULT_PARSER.make_regexp(%w[http https]),
+                      message: "must be a valid URL" }
+
+  def set_headline_from_html(html)
+    doc = Nokogiri::HTML(html)
+
+    h1 = doc.at('h1')
+
+    self.headline = h1.text.strip if h1
+  end
+
+  def set_body_from_html(html)
+    doc = Nokogiri::HTML(html)
+
+    article_tag = doc.at('article')
+    paragraphs = if article_tag
+                  article_tag.css('p')
+                else
+                  doc.css('p')
+                end
+
+    meaningful_paragraphs = paragraphs.map(&:text).map(&:strip).select { |p| p.length > 40 }
+
+    self.body = meaningful_paragraphs.join("\n\n")
+  end
+
+  def naive_summary
+    return "" unless body.present?
+
+    sentences = body.scan(/[^.!?]+[.!?]/).map(&:strip)
+    return body if sentences.empty?
+
+    sorted = sentences.sort_by { |s| -s.length }
+
+    top_sentences = sorted[0, 3]
+
+    summary_text = sentences.select { |s| top_sentences.include?(s) }.join(" ")
+    summary_text
+  end
 end
