@@ -10,9 +10,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_12_02_104416) do
+ActiveRecord::Schema[7.1].define(version: 2025_12_02_113015) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "articles", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "summary_prompt_id"
+    t.string "link"
+    t.text "headline"
+    t.text "body"
+    t.text "summary"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["summary_prompt_id"], name: "index_articles_on_summary_prompt_id"
+    t.index ["user_id"], name: "index_articles_on_user_id"
+  end
+
+  create_table "summary_prompts", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "name"
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_summary_prompts_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -26,4 +48,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_02_104416) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "articles", "summary_prompts"
+  add_foreign_key "articles", "users"
+  add_foreign_key "summary_prompts", "users"
 end
