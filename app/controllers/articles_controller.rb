@@ -23,7 +23,7 @@ class ArticlesController < ApplicationController
 
     @article.set_headline_from_html(article_html)
     @article.set_body_from_html(article_html)
-    @article.summary = @article.naive_summary
+    @article.summary = @article.ai_summary
     @conversation = Conversation.new
     @conversation.title = @article.headline
     @conversation.article = @article
@@ -61,6 +61,6 @@ class ArticlesController < ApplicationController
   end
 
   def article_params
-    params.require(:article).permit(:link)
+    params.require(:article).permit(:link, :summary_prompt_id)
   end
 end
