@@ -16,20 +16,10 @@ class ArticlesController < ApplicationController
   end
 
   def create
-    @article = Article.new(article_params)
-    @article.user = current_user
+    @article = current_user.articles.build(article_params)
 
-    article_html = URI.open(@article.link).read
-
-    @article.set_headline_from_html(article_html)
-    @article.set_body_from_html(article_html)
-    @article.summary = @article.ai_summary
-    @conversation = Conversation.new
-    @conversation.title = @article.headline
-    @conversation.article = @article
-
-    if @article.save && @conversation.save
-      redirect_to conversation_path(@conversation)
+    if @article.save
+      redirect_to conversation_path(@article.conversations.first)
     else
       @articles = Article.all
       render "articles/index", status: :unprocessable_entity
