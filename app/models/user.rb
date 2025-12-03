@@ -5,4 +5,5 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
   has_many :summary_prompts, dependent: :destroy
   has_many :articles, dependent: :destroy
+  has_many :conversations, through: :articles
 end
