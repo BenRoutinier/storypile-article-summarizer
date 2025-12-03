@@ -6,9 +6,32 @@ class Article < ApplicationRecord
   has_many :conversations, dependent: :destroy
   validates :link,
             presence: true,
-            uniqueness: true,
-            format: { with: URI::DEFAULT_PARSER.make_regexp(%w[http https]),
-                      message: "must be a valid URL" }
+            uniqueness: { scope: :user_id },
+            format: {
+              with: URI::DEFAULT_PARSER.make_regexp(%w[http https]),
+              message: "must be a valid URL"
+            }
+
+  before_validation :populate_from_link, on: :create
+  after_create :create_initial_conversation
+
+  private
+
+  def populate_from_link
+    return if link.blank?
+
+    html = URI.open(link).read
+    set_headline_from_html(html)
+    set_body_from_html(html)
+    self.summary = ai_summary
+  end
+
+  def create_initial_conversation
+    Conversation.create!(
+      title: headline,
+      article: self
+    )
+  end
 
   def set_headline_from_html(html)
     doc = Nokogiri::HTML(html)
@@ -43,19 +66,5 @@ class Article < ApplicationRecord
     PROMPT
     prompt = "#{summary_prompt} #{self.summary_prompt_id ? "Also follow these custom instructions: #{SummaryPrompt.find(self.summary_prompt_id).content}" : ''}"
     RubyLLM.chat.with_instructions(prompt).ask(self.body).content
-  end
-
-  def naive_summary
-    return "" unless body.present?
-
-    sentences = body.scan(/[^.!?]+[.!?]/).map(&:strip)
-    return body if sentences.empty?
-
-    sorted = sentences.sort_by { |s| -s.length }
-
-    top_sentences = sorted[0, 3]
-
-    summary_text = sentences.select { |s| top_sentences.include?(s) }.join(" ")
-    summary_text
   end
 end
