@@ -24,9 +24,12 @@ class ArticlesController < ApplicationController
     @article.set_headline_from_html(article_html)
     @article.set_body_from_html(article_html)
     @article.summary = @article.naive_summary
+    @conversation = Conversation.new
+    @conversation.title = @article.headline
+    @conversation.article = @article
 
-    if @article.save
-      redirect_to article_path(@article)
+    if @article.save && @conversation.save
+      redirect_to conversation_path(@conversation)
     else
       @articles = Article.all
       render "articles/index", status: :unprocessable_entity
