@@ -1,5 +1,8 @@
 <div class="container my-4">
-  <%= link_to "← See full article", article_path(@conversation.article), class: "btn btn-primary mb-3" %>
+  <div class="mt-4">
+    <%= link_to "← Back to Articles", articles_path, class: "btn btn-secondary mb-3" %>
+    <%= link_to "See full article", article_path(@conversation.article), class: "btn btn-primary mb-3" %>
+  </div>
 
   <h1 id="conversation_title"><%= @conversation.title %></h1>
 
