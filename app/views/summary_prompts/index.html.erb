@@ -1,20 +1,29 @@
-<h1>My summary prompts</h1>
+<div class="container mt-4">
+  <h1 class="text-center mb-4">My summary prompts</h1>
 
-<%= link_to "New summary prompt", new_summary_prompt_path, class: "btn btn-light" %>
+  <div class="text-center mb-3">
+    <%= link_to "New summary prompt", new_summary_prompt_path, class: "btn btn-primary" %>
+  </div>
 
-<% if @summary_prompts.any? %>
-  <% @summary_prompts.each do |summary_prompt| %>
-  <div class="card">
-    <h3><%= summary_prompt.name %></h3>
-    <p><%= summary_prompt.content %></p>
-    <%= link_to "Delete prompt",
-                  summary_prompt_path(summary_prompt),
-                  data: {
-                    turbo_method: :delete,
-                    turbo_confirm: "Are you sure?"
-                  },
-                  class: "btn btn-light" %>
-  <% end %>
-<% else %>
-  <p>No summary prompt yet</p>
-<% end %>
+<div class="row justify-content-center">
+    <div class="col-md-8">
+      <% if @summary_prompts.any? %>
+        <% @summary_prompts.each do |summary_prompt| %>
+        <div class="card mb-3 p-3 shadow-sm">
+          <h3><%= summary_prompt.name %></h3>
+          <p><%= summary_prompt.content %></p>
+            <%= link_to "Delete prompt",
+                        summary_prompt_path(summary_prompt),
+                        data: {
+                          turbo_method: :delete,
+                          turbo_confirm: "Are you sure?"
+                        },
+                        class: "btn btn-sm btn-outline-danger mt-2" %>
+          </div>
+          <% end %>
+      <% else %>
+        <p>No summary prompt yet</p>
+      <% end %>
+    </div>
+  </div>
+</div>
