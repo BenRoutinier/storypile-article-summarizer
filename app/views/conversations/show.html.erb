@@ -1,5 +1,5 @@
 <div class="container my-4">
-  <%= link_to "← See full article", article_path(@conversation.article) %>
+  <%= link_to "← See full article", article_path(@conversation.article), class: "btn btn-primary mb-3" %>
 
   <h1 id="conversation_title"><%= @conversation.title %></h1>
 
@@ -16,14 +16,14 @@
     <% @conversation.messages.each do |message| %>
       <% if message.role == "user" %>
         <div class="d-flex justify-content-end mb-2">
-          <div class="bg-white px-3 pb-0 pt-3 rounded-pill">
+          <div class="bg-white px-3 pb-0 pt-3" style="border-radius: 30px;">
             <%= simple_format(message.content) %>
           </div>
         </div>
       <% elsif message.role == "assistant" %>
-        <div class="bg-danger d-flex justify-content-start mb-5 rounded-pill">
-          <div class="px-3 pb-0 pt-3">
-            <%= simple_format(message.content) %>
+        <div class="d-flex justify-content-start mb-5">
+          <div class="bg-danger px-3 pt-3 pb-0" style="border-radius: 30px;">
+              <%= simple_format(message.content) %>
           </div>
         </div>
       <% end %>
