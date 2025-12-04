@@ -7,13 +7,8 @@
   <h1 id="conversation_title"><%= @conversation.title %></h1>
 
   <% if @conversation.article.summary.present? %>
-      <div class="card mb-4">
-        <div class="card-body">
-          <h5 class="card-title">AI Summary</h5>
-          <p class="card-text"><%= simple_format(@conversation.article.summary) %></p>
-        </div>
-      </div>
-    <% end %>
+    <%= render "articles/summary", article: @conversation.article %>
+  <% end %>
 
   <div id="messages">
     <% @conversation.messages.each do |message| %>

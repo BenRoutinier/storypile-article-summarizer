@@ -10,7 +10,9 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
 
-  resources :articles
+  resources :articles do
+    post :regenerate_summary, on: :member
+  end
   resources :summary_prompts
   resources :conversations, only: [:show, :destroy] do
     resources :messages, only: [:new, :create]

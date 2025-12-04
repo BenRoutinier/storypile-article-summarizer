@@ -4,12 +4,7 @@
   <h1 class="mb-3"><%= @article.headline %></h1>
 
   <% if @article.summary.present? %>
-    <div class="card mb-4">
-      <div class="card-body">
-        <h5 class="card-title">AI Summary</h5>
-        <p class="card-text"><%= simple_format(@article.summary) %></p>
-      </div>
-    </div>
+    <%= render "summary", article: @article %>
   <% end %>
 
   <div class="card">

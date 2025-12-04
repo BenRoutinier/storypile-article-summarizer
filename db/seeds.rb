@@ -7,6 +7,7 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+User.create( { email: "test@test.com", password: "654321" } )
 user = User.create( { email: "fake@fake.com", password: "123456" } )
 user_id = user.id
 summary = SummaryPrompt.create({ user_id: user_id, name: "Animal stories", content: "Return a list of animals in the article"} )

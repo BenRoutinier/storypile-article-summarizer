@@ -1,7 +1,7 @@
 require 'open-uri'
 
 class ArticlesController < ApplicationController
-  before_action :set_article, only: [:show, :destroy, :edit, :update]
+  before_action :set_article, only: [:show, :destroy, :edit, :update, :regenerate_summary]
 
   def index
     @articles = current_user.articles.all
@@ -21,9 +21,19 @@ class ArticlesController < ApplicationController
     if @article.save
       redirect_to conversation_path(@article.conversations.first)
     else
-      @articles = Article.all
+      @articles = current_user.articles.all
       render "articles/index", status: :unprocessable_entity
     end
+  end
+
+  def regenerate_summary
+    extra_instructions = params[:extra_instructions].to_s
+
+    new_summary = @article.ai_summary(extra_instructions: extra_instructions)
+
+    @article.update!(summary: new_summary)
+
+    redirect_to request.referrer || conversation_path(@article.conversations.first), notice: "Summary regenerated!"
   end
 
   def edit
