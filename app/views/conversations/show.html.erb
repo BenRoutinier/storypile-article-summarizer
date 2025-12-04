@@ -11,27 +11,10 @@
   <% end %>
 
   <div id="messages">
-    <% @conversation.messages.each do |message| %>
-      <% if message.role == "user" %>
-        <div class="d-flex justify-content-end mb-2">
-          <div class="bg-white px-3 pb-0 pt-3" style="border-radius: 30px;">
-            <%= simple_format(message.content) %>
-          </div>
-        </div>
-      <% elsif message.role == "assistant" %>
-        <div class="d-flex justify-content-start mb-5">
-          <div class="bg-danger px-3 pt-3 pb-0" style="border-radius: 30px;">
-              <%= simple_format(message.content) %>
-          </div>
-        </div>
-      <% end %>
-    <% end %>
+      <%= render "messages/messages", messages: @conversation.messages %>
   </div>
 
   <div id="new_message_container">
-    <%= simple_form_for [@conversation, @message] do |f| %>
-      <%= f.input :content, label: "Ask a question about the article", required: true, placeholder: "What is the most important information in this article?" %>
-      <%= f.button :submit, 'Ask StoryPile Assistant', class: 'btn btn-primary' %>
-    <% end %>
+    <%= render "messages/form", conversation: @conversation, message: @message %>
   </div>
 </div>
