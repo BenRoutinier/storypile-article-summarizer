@@ -21,7 +21,7 @@ class ArticlesController < ApplicationController
     if @article.save
       redirect_to conversation_path(@article.conversations.first)
     else
-      @articles = Article.all
+      @articles = current_user.articles.new
       render "articles/index", status: :unprocessable_entity
     end
   end
@@ -46,8 +46,12 @@ class ArticlesController < ApplicationController
 
   private
 
-  def set_article
-    @article = current_user.articles.find(params[:id])
+  def index
+    @articles = current_user.articles.all
+  end
+
+  def show
+    #set_article
   end
 
   def article_params
