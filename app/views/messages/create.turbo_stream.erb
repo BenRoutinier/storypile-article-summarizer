@@ -1,0 +1,13 @@
+<% if @conversation.title_previously_changed? %>
+  <%= turbo_stream.update "conversation_title", @conversation.title %>
+<% end %>
+
+<%= turbo_stream.append "messages" do %>
+  <%= render "messages/messages", messages: @conversation.messages.last(2) %>
+<% end %>
+
+<%= turbo_stream.update "new_message_container" do %>
+  <%= render "messages/form", conversation: @conversation, message: Message.new %>
+<% end %>
+
+<%#= turbo_stream.invoke "document.querySelector('#new_message_container').reset()"%>

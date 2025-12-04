@@ -44,9 +44,15 @@ class MessagesController < ApplicationController
       build_conversation_history
       response = @ruby_llm_chat.with_instructions(SYSTEM_PROMPT + @article.body).ask(@message.content)
       @conversation.messages.create(role: "assistant", content: response.content, conversation: @conversation)
-      redirect_to conversation_path(@conversation)
+      respond_to do |format|
+        format.turbo_stream
+        format.html { redirect_to conversation_path(@conversation) }
+      end
     else
-      render "conversations/show", status: :unprocessable_entity
+      respond_to do |format|
+        format.turbo_stream { render turbo_stream: turbo_stream.replace("new_message", partial: "messages/form", locals: { conversation: @conversation, message: @message }) }
+        format.html { render "conversations/show", status: :unprocessable_entity }
+      end
     end
   end
 
