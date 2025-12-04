@@ -50,16 +50,15 @@ class MessagesController < ApplicationController
     end
   end
 
-  def build_conversation_history
-    @conversation.messages.each do |message|
-      @ruby_llm_chat.add_message(message)
-    end
-  end
-
   private
 
   def message_params
     params.require(:message).permit(:content)
   end
 
+  def build_conversation_history
+    @conversation.messages.each do |message|
+      @ruby_llm_chat.add_message(message)
+    end
+  end
 end
