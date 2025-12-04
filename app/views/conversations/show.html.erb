@@ -4,11 +4,8 @@
     <%= link_to "See full article", article_path(@conversation.article), class: "btn btn-primary mb-3" %>
   </div>
 
-  <h1 id="conversation_title"><%= @conversation.title %></h1>
+  <%= render "articles/article_head", article: @conversation.article %>
 
-  <% if @conversation.article.summary.present? %>
-    <%= render "articles/summary", article: @conversation.article %>
-  <% end %>
 
   <div id="messages">
     <% @conversation.messages.each do |message| %>

@@ -1,0 +1,19 @@
+  <h1 class="mb-3"><%= article.headline %></h1>
+
+  <% if article.link.present? %>
+    <%
+      host = URI.parse(article.link).host rescue "Source"
+      parts = host.split(".")
+      domain = parts.drop(1).join(".")
+    %>
+
+    <%= link_to domain,
+          article.link,
+          target: "_blank",
+          rel: "noopener",
+          class: "btn btn-info mb-3" %>
+  <% end %>
+
+  <% if article.summary.present? %>
+    <%= render "articles/summary", article: article %>
+  <% end %>
