@@ -57,14 +57,14 @@ class Article < ApplicationRecord
   end
 
   def ai_summary
-    summary_prompt = <<-PROMPT
+    ai_prompt = <<-PROMPT
       You are a professional media office assistant creating a news overview
       for an exclusive client. Summarize the most important parts of the
       following text for the client. Create a nutgraf in the style of the
       associated press giving an overview of the whole story. Return the
       text of your summary with no subheadings.
     PROMPT
-    prompt = "#{summary_prompt} #{self.summary_prompt_id ? "Also follow these custom instructions: #{SummaryPrompt.find(self.summary_prompt_id).content}" : ''}"
+    prompt = "#{ai_prompt} #{self.summary_prompt_id ? "Also follow these custom instructions: #{SummaryPrompt.find(self.summary_prompt_id).content}" : ''}"
     RubyLLM.chat.with_instructions(prompt).ask(self.body).content
   end
 end
