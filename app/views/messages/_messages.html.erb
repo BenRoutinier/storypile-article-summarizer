@@ -7,7 +7,7 @@
         </div>
       <% elsif message.role == "assistant" %>
         <div class="d-flex justify-content-start mb-5">
-          <div class="bg-danger px-3 pt-3 pb-0" style="border-radius: 30px;">
+          <div class="px-3 pt-3 pb-0" style="background: $assistant-message; border-radius: 30px;">
               <%= simple_format(message.content) %>
           </div>
         </div>
