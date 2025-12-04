@@ -1,13 +1,13 @@
 <% messages.each do |message| %>
       <% if message.role == "user" %>
         <div class="d-flex justify-content-end mb-2">
-          <div class="bg-white px-3 pb-0 pt-3" style="border-radius: 30px;">
+          <div class="bg-white px-3 pb-0 pt-3" style="border-radius: 20px;">
             <%= simple_format(message.content) %>
           </div>
         </div>
       <% elsif message.role == "assistant" %>
         <div class="d-flex justify-content-start mb-5">
-          <div class="px-3 pt-3 pb-0" style="background: $assistant-message; border-radius: 30px;">
+          <div class="px-3 pt-3 pb-0 assistant-message" style="border-radius: 20px;">
               <%= simple_format(message.content) %>
           </div>
         </div>
