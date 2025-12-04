@@ -1,11 +1,22 @@
 <%= simple_form_for [conversation, message] do |f| %>
-  <%= f.input :content,
-    input_html: {
-      autocomplete: "off",
-      value: message.content || "",
-    },
-    label: "Ask a question about the article",
-    required: true,
-    placeholder: "What is the most important information in this article?" %>
-  <%= f.button :submit, 'Ask StoryPile Assistant', class: 'btn btn-primary' %>
+
+  <div class="d-flex">
+    <div class="flex-grow-1 me-2">
+      <%= f.input :content,
+        label: false,
+        required: true,
+        placeholder: "Ask a question about this article ...",
+        input_html: {
+          autocomplete: "off",
+          value: message.content || "",
+          rows: 1,
+          class: "chat-input"
+        }
+      %>
+    </div>
+    <div>
+      <%= f.button :submit, 'Submit', class: 'btn btn-primary' %>
+    </div>
+  </div>
+
 <% end %>
