@@ -1,0 +1,17 @@
+    <div class="card mb-4">
+      <div class="card-body">
+        <h5 class="card-title">AI Summary</h5>
+        <p class="card-text"><%= simple_format(article.summary) %></p>
+
+        <hr>
+
+        <%= form_with url: regenerate_summary_article_path(article), method: :post, local: true, class: "d-flex" do |f| %>
+          <div class="flex-grow-1 me-2">
+            <%= f.text_field :extra_instructions, class: "form-control", placeholder: "Additional one-time instructions to regenerate summary (optional)" %>
+          </div>
+          <div>
+            <%= f.submit "Regenerate", class: "btn btn-warning" %>
+          </div>
+        <% end %>
+      </div>
+    </div>

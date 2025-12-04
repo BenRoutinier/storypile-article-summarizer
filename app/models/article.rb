@@ -15,6 +15,41 @@ class Article < ApplicationRecord
   before_validation :populate_from_link, on: :create
   after_create :create_initial_conversation
 
+  def ai_summary(extra_instructions: "")
+    ai_prompt = <<~PROMPT
+      You are a professional media office assistant creating a news overview
+      for an exclusive client. Summarize the most important parts of the
+      following text for the client. Create a nutgraf in the style of the
+      associated press giving an overview of the whole story. Return the
+      text of your summary with no subheadings.
+      CORE RULES
+      You MUST use only information explicitly present in the article.
+      You MUST NOT use external knowledge.
+      You MUST NOT guess.
+      You MUST NOT interpret, speculate, or provide opinions.
+    PROMPT
+
+    prompt = <<~FINALPROMPT
+      #{ai_prompt}
+
+      #{self.summary_prompt_id ? "Also follow these custom instructions: #{SummaryPrompt.find(self.summary_prompt_id).content}" : ''}
+
+      #{extra_instructions.present? ? "Additional one-time instructions: #{extra_instructions}" : ''}
+    FINALPROMPT
+
+    begin
+      response = RubyLLM.chat.with_instructions(prompt).ask(self.body).content
+
+      if response.blank?
+        return "Summary could not be generated at this time."
+      end
+
+      response
+    rescue StandardError
+      "Summary could not be generated at this time."
+    end
+  end
+
   private
 
   def populate_from_link
@@ -46,25 +81,13 @@ class Article < ApplicationRecord
 
     article_tag = doc.at('article')
     paragraphs = if article_tag
-                  article_tag.css('p')
-                else
-                  doc.css('p')
-                end
+                   article_tag.css('p')
+                 else
+                   doc.css('p')
+                 end
 
     meaningful_paragraphs = paragraphs.map(&:text).map(&:strip).select { |p| p.length > 40 }
 
     self.body = meaningful_paragraphs.join("\n\n")
-  end
-
-  def ai_summary
-    ai_prompt = <<-PROMPT
-      You are a professional media office assistant creating a news overview
-      for an exclusive client. Summarize the most important parts of the
-      following text for the client. Create a nutgraf in the style of the
-      associated press giving an overview of the whole story. Return the
-      text of your summary with no subheadings.
-    PROMPT
-    prompt = "#{ai_prompt} #{self.summary_prompt_id ? "Also follow these custom instructions: #{SummaryPrompt.find(self.summary_prompt_id).content}" : ''}"
-    RubyLLM.chat.with_instructions(prompt).ask(self.body).content
   end
 end
