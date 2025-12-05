@@ -1,0 +1,8 @@
+        <%= simple_form_for :summary_prompt do |f| %>
+          <%= f.input :name, label: "Title" %>
+          <%= f.input :content, label: "Prompt" %>
+
+          <div class="col-12 mt-3">
+            <%= f.submit "Add prompt", class: "btn btn-primary btn-lg px-4" %>
+          </div>
+        <% end %>

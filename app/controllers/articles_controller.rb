@@ -1,18 +1,14 @@
 require 'open-uri'
 
 class ArticlesController < ApplicationController
-  before_action :set_article, only: [:show, :destroy, :edit, :update, :regenerate_summary]
+  before_action :set_article, only: [:show, :destroy, :regenerate_summary]
 
   def index
-    @articles = current_user.articles.all
+    @articles = current_user.articles.order(created_at: :desc)
   end
 
   def show
     #set_article
-  end
-
-  def new
-    @article = current_user.articles.new
   end
 
   def create
@@ -34,19 +30,6 @@ class ArticlesController < ApplicationController
     @article.update!(summary: new_summary)
 
     redirect_to request.referrer || conversation_path(@article.conversations.first), notice: "Summary regenerated!"
-  end
-
-  def edit
-    #set_article
-  end
-
-  def update
-    #set_article
-    if @article.update(article_params)
-      redirect_to article_path(@article), notice: "Article updated"
-    else
-      render :edit, status: :unprocessable_entity
-    end
   end
 
   def destroy
