@@ -3,8 +3,7 @@
   <% if article.link.present? %>
     <%
       host = URI.parse(article.link).host rescue "Source"
-      parts = host.split(".")
-      domain = parts.drop(1).join(".")
+      domain = host
     %>
 
     <%= link_to domain,
