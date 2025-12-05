@@ -4,7 +4,7 @@
   <div class="row d-flex">
     <div class="col-12 col-md-4" sstyle ="position: sticky; top: 20px; z-index: 10; align-self: flex-start;">
       <div class="card mb-4">
-        <div class="card-body">
+        <div class="card-body bg-white">
           <h5 class="card-title" >Add a New Custom Summary Prompt</h5>
           <%= render "form", summary_prompt: SummaryPrompt.new %>
         </div>
@@ -15,16 +15,16 @@
     <div class="row g-3">
       <% if @summary_prompts.any? %>
         <% @summary_prompts.each do |summary_prompt| %>
-        <div class="card mb-3 p-3 shadow-sm">
+        <div class="card mb-3 p-3 shadow-sm bg-white">
+                      <%= button_to summary_prompt_path(summary_prompt),
+                method: :delete,
+                class: "position-absolute bottom-0 end-0 m-2 px-1 rounded-3 border-0 text-black z-3 mobile-action-btn",
+                style: "background: transparent",
+                form: { data: { turbo_confirm: 'Are you sure?' } } do %>
+              <i class="fa-solid fa-trash"></i>
+            <% end %>
           <h3><%= summary_prompt.name %></h3>
           <p><%= summary_prompt.content %></p>
-            <%= link_to "Delete prompt",
-                        summary_prompt_path(summary_prompt),
-                        data: {
-                          turbo_method: :delete,
-                          turbo_confirm: "Are you sure?"
-                        },
-                        class: "btn btn-sm btn-outline-danger mt-2" %>
           </div>
           <% end %>
       <% else %>

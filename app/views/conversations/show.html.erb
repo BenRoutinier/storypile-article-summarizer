@@ -6,8 +6,8 @@
 
   <%= render "articles/article_head", article: @conversation.article %>
 
-    <div class="card mb-4 bg-white">
-      <div class="card-body">
+    <div class="card mb-4">
+      <div class="card-body bg-white">
         <div id="messages" data-controller="scroll">
           <h5 class="card-title">StoryPile Assistant</h5>
           <%= render "messages/messages", messages: @conversation.messages %>
