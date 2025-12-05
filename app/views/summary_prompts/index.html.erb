@@ -1,12 +1,18 @@
-<div class="container mt-4">
+<div class="container my-4">
   <h1 class="text-center mb-4">My summary prompts</h1>
 
-  <div class="text-center mb-3">
-    <%= link_to "New summary prompt", new_summary_prompt_path, class: "btn btn-primary" %>
-  </div>
+  <div class="row">
+    <div class="col-12 col-md-4" >
+      <div class="card mb-4" style ="position: sticky">
+        <div class="card-body">
+          <h5 class="card-title" >Add a New Custom Summary Prompt</h5>
+          <%= render "form", summary_prompt: SummaryPrompt.new %>
+        </div>
+      </div>
+    </div>
 
-<div class="row justify-content-center">
-    <div class="col-md-8">
+<div class="col-12 col-md-8">
+    <div class="row g-3">
       <% if @summary_prompts.any? %>
         <% @summary_prompts.each do |summary_prompt| %>
         <div class="card mb-3 p-3 shadow-sm">
@@ -25,5 +31,7 @@
         <p>No summary prompt yet</p>
       <% end %>
     </div>
+
+      </div>
   </div>
 </div>

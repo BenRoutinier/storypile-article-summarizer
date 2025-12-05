@@ -1,10 +1,6 @@
 class SummaryPromptsController < ApplicationController
   def index
-    @summary_prompts = current_user.summary_prompts.all
-  end
-
-  def new
-    @summary_prompt = SummaryPrompt.new
+    @summary_prompts = current_user.summary_prompts.order(created_at: :desc)
   end
 
   def create
@@ -13,7 +9,8 @@ class SummaryPromptsController < ApplicationController
     if @summary_prompt.save
       redirect_to summary_prompts_path
     else
-      render :new, status: :unprocessable_entity
+      @summary_prompts = current_user.summary_prompts.all
+      render "summary_prompts/index", status: :unprocessable_entity
     end
   end
 
