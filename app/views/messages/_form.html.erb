@@ -1,7 +1,9 @@
-<%= simple_form_for [conversation, message] do |f| %>
+<%= simple_form_for([conversation, message], data: {
+          controller: "submit-on-enter",
+          action: "keydown->submit-on-enter#submit" }) do |f| %>
 
   <div class="d-flex">
-    <div class="flex-grow-1 me-2">
+    <div class="flex-grow-1 me-2" >
       <%= f.input :content,
         label: false,
         required: true,
