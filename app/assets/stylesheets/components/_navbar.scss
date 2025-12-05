@@ -8,5 +8,18 @@
 }
 
 .navbar-lewagon .navbar-brand img {
-  width: 50px;
+  width: 70px;
+  height: auto;
+}
+
+.navbar-lewagon h2 a {
+  text-decoration: none !important;
+  font-family: 'Google Sans Flex', sans-serif;
+  color: #232929;
+  font-weight: 600;
+}
+
+.menu-bar i {
+  font-size: 30px;
+  color: #232929;
 }

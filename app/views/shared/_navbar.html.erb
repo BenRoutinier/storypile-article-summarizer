@@ -1,7 +1,13 @@
+<head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,1..1000&display=swap" rel="stylesheet">
+</head>
+
 <nav class="navbar navbar-expand-sm navbar-light navbar-lewagon">
   <div class="container-fluid">
     <%= link_to root_path, class: "navbar-brand" do %>
-      <%= image_tag "storypilelogo.png", alt: "StoryPile Logo", class: "logo" %>
+      <%= image_tag "storypilelogo-edit.png", alt: "StoryPile Logo", class: "logo" %>
     <% end %>
     <h2><%= link_to "StoryPile", root_path %></h2>
 
@@ -19,13 +25,14 @@
             <%= link_to "My summary prompts", summary_prompts_path, class: "nav-link" %>
           </li> -->
           <li class="nav-item dropdown">
-          <a href="#" class="avatar" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <%= image_tag "avatar.png", class: "avatar", alt: "dropdown menu" %>
+          <a href="#" class="menu-bar" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <!-- <%= image_tag "avatar.png", class: "avatar", alt: "dropdown menu" %> -->
+          <i class="fa-solid fa-bars"></i>
           </a>
             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
               <%= link_to "Home", root_path, class: "dropdown-item" %>
               <%= link_to "My summary prompts", summary_prompts_path, class: "dropdown-item" %>
-              <%= link_to "Settings", "#", class: "dropdown-item" %>
+          <!--    <%= link_to "Settings", "#", class: "dropdown-item" %> -->
               <%= link_to "Log out", destroy_user_session_path, data: {turbo_method: :delete}, class: "dropdown-item" %>
             </div>
           </li>
