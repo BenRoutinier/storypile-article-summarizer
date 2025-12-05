@@ -1,7 +1,7 @@
 <% messages.each do |message| %>
       <% if message.role == "user" %>
         <div class="d-flex justify-content-end mb-2">
-          <div class="bg-white px-3 pb-0 pt-3" style="border-radius: 20px;">
+          <div class="px-3 pb-0 pt-3 user-message" style="border-radius: 20px;">
             <%= simple_format(message.content) %>
           </div>
         </div>
