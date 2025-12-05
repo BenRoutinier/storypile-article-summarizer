@@ -4,3 +4,5 @@ import { eagerLoadControllersFrom } from "@hotwired/stimulus-loading"
 eagerLoadControllersFrom("controllers", application)
 import ScrollController from "./scroll_controller"
 application.register("scroll", ScrollController)
+import SubmitOnEnterController from "./submit_on_enter_controller"
+application.register("submit-on-enter", SubmitOnEnterController)
