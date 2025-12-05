@@ -12,3 +12,9 @@
   border-radius: 6px;
   box-shadow: none !important;
 }
+
+#messages {
+  max-height: 65vh;
+  overflow-y: auto;
+  padding-bottom: 20px;
+}

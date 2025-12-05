@@ -2,4 +2,21 @@
   background-color: $secondary !important;
   border-color: $secondary !important;
   color: $black !important;
+
+    &:hover {
+  background-color: darken($secondary, 15%) !important;
+  border-color: darken($secondary, 15%) !important;
+  }
+
+  &:active,
+    &:focus {
+    background-color: darken($secondary, 15%) !important;
+    border-color: darken($secondary, 15%) !important;
+  }
+
+  &:disabled {
+    background-color: lighten($secondary, 10%) !important;
+    border-color: lighten($secondary, 10%) !important;
+    color: rgba($white, 0.6) !important;
+  }
 }

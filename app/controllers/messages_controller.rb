@@ -43,7 +43,7 @@ class MessagesController < ApplicationController
       @ruby_llm_chat = RubyLLM.chat
       build_conversation_history
       response = @ruby_llm_chat.with_instructions(SYSTEM_PROMPT + @article.body).ask(@message.content)
-      @conversation.messages.create(role: "assistant", content: response.content, conversation: @conversation)
+      @assistant_message = @conversation.messages.create(role: "assistant", content: response.content, conversation: @conversation)
       respond_to do |format|
         format.turbo_stream
         format.html { redirect_to conversation_path(@conversation) }
