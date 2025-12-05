@@ -3,14 +3,15 @@
 
             <%= button_to article_path(article),
                 method: :delete,
-                class: "position-absolute top-0 end-0 m-2 px-1 rounded-3 border-0 bg-danger text-white z-3 mobile-action-btn",
+                class: "position-absolute bottom-0 end-0 m-2 px-1 rounded-3 border-0 text-black z-3 mobile-action-btn",
+                style: "background: transparent",
                 form: { data: { turbo_confirm: 'Are you sure?' } } do %>
               <i class="fa-solid fa-trash"></i>
             <% end %>
 
           <%= link_to conversation_path(article), class: "text-decoration-none text-reset" do %>
             <div class="card h-100 shadow-sm">
-              <div class="card-body">
+              <div class="card-body bg-white">
                 <h5 class="card-title"><%= article.headline %></h5>
               </div>
             </div>
