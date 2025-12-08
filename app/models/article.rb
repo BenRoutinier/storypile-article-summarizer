@@ -4,6 +4,8 @@ class Article < ApplicationRecord
   belongs_to :user
   belongs_to :summary_prompt, optional: true
   has_many :conversations, dependent: :destroy
+  has_many :bookmarks, dependent: :destroy
+
   validates :link,
             presence: true,
             uniqueness: { scope: :user_id },
