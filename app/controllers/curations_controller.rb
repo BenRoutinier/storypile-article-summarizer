@@ -1,0 +1,2 @@
+class CurationsController < ApplicationController
+end

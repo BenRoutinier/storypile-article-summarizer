@@ -12,10 +12,13 @@ Rails.application.routes.draw do
 
   resources :articles, except: [:new, :edit, :update] do
     post :regenerate_summary, on: :member
+    resources :bookmarks, only: [:create]
   end
+  resources :bookmarks, only: [:destroy]
   resources :summary_prompts, only: [:index, :create, :destroy]
   resources :conversations, only: [:show] do
     resources :messages, only: [:create]
   end
+  resources :curations, only: [:index, :show, :create, :destroy]
 
 end
