@@ -1,16 +1,33 @@
-  <h1 class="mb-3"><%= article.headline %></h1>
+  <h1 class="mb-2"><%= article.headline %></h1>
 
-  <% if article.link.present? %>
-    <%
-      host = URI.parse(article.link).host rescue "Source"
-      domain = host
-    %>
+  <% if article.subheadline.present? %>
+    <p class="lead text-muted mb-3"><%= article.subheadline %></p>
+  <% end %>
 
-    <%= link_to domain,
-          article.link,
-          target: "_blank",
-          rel: "noopener",
-          class: "btn btn-secondary mb-3" %>
+  <div class="d-flex align-items-center gap-2 flex-wrap mb-3">
+    <% if article.link.present? %>
+      <%
+        host = URI.parse(article.link).host rescue "Source"
+        domain = host
+      %>
+      <%= link_to domain,
+            article.link,
+            target: "_blank",
+            rel: "noopener",
+            class: "btn btn-secondary" %>
+    <% end %>
+
+    <% if article.tags.present? %>
+      <% article.tags.split(',').each do |tag| %>
+        <span class="badge bg-light text-dark border"><%= tag.strip %></span>
+      <% end %>
+    <% end %>
+  </div>
+
+  <% if article.image_link.present? %>
+    <div class="mb-3" style="aspect-ratio: 2/1; overflow: hidden;">
+      <%= image_tag article.image_link, class: "w-100 h-100 object-fit-cover rounded" %>
+    </div>
   <% end %>
 
   <% if article.summary.present? %>

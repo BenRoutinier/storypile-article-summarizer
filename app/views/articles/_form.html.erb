@@ -5,6 +5,10 @@
                 label: "Article Link",
                 input_html: { placeholder: "https://example.com/article" } %>
 
+    <%= f.input :tags,
+                label: "Tags (comma-separated)",
+                input_html: { placeholder: "news, politics, tech" } %>
+
     <%= f.input :summary_prompt_id,
                 collection: current_user.summary_prompts,
                 label_method: :name,

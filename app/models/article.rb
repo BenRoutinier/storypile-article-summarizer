@@ -59,6 +59,8 @@ class Article < ApplicationRecord
 
     html = URI.open(link).read
     set_headline_from_html(html)
+    set_subheadline_from_html(html)
+    set_image_link_from_html(html)
     set_body_from_html(html)
     self.summary = ai_summary
   end
@@ -91,5 +93,23 @@ class Article < ApplicationRecord
     meaningful_paragraphs = paragraphs.map(&:text).map(&:strip).select { |p| p.length > 40 }
 
     self.body = meaningful_paragraphs.join("\n\n")
+  end
+
+  def set_subheadline_from_html(html)
+    doc = Nokogiri::HTML(html)
+
+    og_description = doc.at('meta[property="og:description"]')&.attr('content')
+    twitter_description = doc.at('meta[name="twitter:description"]')&.attr('content')
+
+    self.subheadline = (og_description || twitter_description)&.strip.presence
+  end
+
+  def set_image_link_from_html(html)
+    doc = Nokogiri::HTML(html)
+
+    og_image = doc.at('meta[property="og:image"]')&.attr('content')
+    twitter_image = doc.at('meta[name="twitter:image"]')&.attr('content')
+
+    self.image_link = (og_image || twitter_image)&.strip.presence
   end
 end
