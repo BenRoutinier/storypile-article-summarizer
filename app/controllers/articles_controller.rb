@@ -7,6 +7,14 @@ class ArticlesController < ApplicationController
     set_articles
   end
 
+  def archived
+    @articles = current_user.articles.where(archived: true).order(created_at: :desc)
+  end
+
+  def favourites
+    @articles = current_user.articles.where(favourited: true).order(created_at: :desc)
+  end
+
   def show
     # set_article
   end
