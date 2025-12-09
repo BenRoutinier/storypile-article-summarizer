@@ -8,7 +8,7 @@ class BookmarksController < ApplicationController
     if @bookmark.save
       redirect_to curation_path(@bookmark.curation_id), notice: "Article added to the list."
     else
-      redirect_back fallback_location: curation_path, alert: "Could not add article."
+      redirect_back fallback_location: curations_path, alert: "Could not add article."
     end
   end
 
