@@ -5,6 +5,7 @@ class Article < ApplicationRecord
   belongs_to :summary_prompt, optional: true
   has_many :conversations, dependent: :destroy
   has_many :bookmarks, dependent: :destroy
+  has_many :curations, through: :bookmarks
 
   attr_accessor :curation_id
 
