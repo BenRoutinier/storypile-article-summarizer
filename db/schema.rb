@@ -50,11 +50,11 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_08_142516) do
   end
 
   create_table "curations", force: :cascade do |t|
-    t.bigint "article_id", null: false
+    t.bigint "user_id", null: false
     t.string "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["article_id"], name: "index_curations_on_article_id"
+    t.index ["user_id"], name: "index_curations_on_user_id"
   end
 
   create_table "messages", force: :cascade do |t|
@@ -92,7 +92,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_08_142516) do
   add_foreign_key "bookmarks", "articles"
   add_foreign_key "bookmarks", "curations"
   add_foreign_key "conversations", "articles"
-  add_foreign_key "curations", "articles"
+  add_foreign_key "curations", "users"
   add_foreign_key "messages", "conversations"
   add_foreign_key "summary_prompts", "users"
 end

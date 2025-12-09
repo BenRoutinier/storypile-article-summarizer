@@ -1,0 +1,11 @@
+<%= simple_form_for(curation, html: { class: "row g-3" }) do |f| %>
+
+    <%= f.input :title,
+                as: :string,
+                label: "Curation Title",
+                input_html: { placeholder: "Sports Curation" } %>
+
+  <div class="col-12 d-flex">
+    <%= f.button :submit, "Add Curation", class: "btn btn-primary" %>
+  </div>
+<% end %>
