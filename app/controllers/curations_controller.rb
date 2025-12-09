@@ -42,7 +42,7 @@ class CurationsController < ApplicationController
   end
 
   def curation_params
-    params.require(:curation).permit(:title, :user_id)
+    params.require(:curation).permit(:title)
   end
 
 end
