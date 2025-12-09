@@ -57,12 +57,33 @@ class Article < ApplicationRecord
   def populate_from_link
     return if link.blank?
 
-    html = URI.open(link).read
-    set_headline_from_html(html)
-    set_subheadline_from_html(html)
-    set_image_link_from_html(html)
-    set_body_from_html(html)
+    parsed = parse_with_readability(link)
+
+    if parsed && parsed['error'].nil?
+      self.headline = parsed['title']&.strip.presence
+      self.subheadline = parsed['subheadline']&.strip.presence
+      self.image_link = parsed['image_link']&.strip.presence
+      self.body = set_body_from_html(parsed['content'])
+      Rails.logger.info("Readability succeeded")
+    else
+      Rails.logger.info("Readability failed, using Nokogiri fallback")
+      html = URI.open(link).read
+      set_headline_from_html(html)
+      set_subheadline_from_html(html)
+      set_image_link_from_html(html)
+      set_body_from_html(html)
+    end
+
     self.summary = ai_summary
+  end
+
+  def parse_with_readability(url)
+    script_path = Rails.root.join('lib', 'scripts', 'parse_article.js')
+    result = `node #{script_path} #{Shellwords.escape(url)} 2>&1`
+    JSON.parse(result)
+  rescue JSON::ParserError, StandardError => e
+    Rails.logger.error("Readability parsing failed: #{e.message}")
+    nil
   end
 
   def create_initial_conversation
@@ -90,7 +111,7 @@ class Article < ApplicationRecord
                    doc.css('p')
                  end
 
-    meaningful_paragraphs = paragraphs.map(&:text).map(&:strip).select { |p| p.length > 40 }
+    meaningful_paragraphs = paragraphs.map(&:text).map(&:strip).select { |p| p.match?(/[.?!]/) }
 
     self.body = meaningful_paragraphs.join("\n\n")
   end
