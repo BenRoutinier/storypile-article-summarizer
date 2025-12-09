@@ -11,8 +11,12 @@ Rails.application.routes.draw do
   # root "posts#index"
 
   resources :articles, except: [:new, :edit, :update] do
-    post :regenerate_summary, on: :member
     resources :bookmarks, only: [:create]
+    member do
+      patch :archive
+      patch :favourite
+      post :regenerate_summary
+    end
   end
   resources :bookmarks, only: [:destroy]
   resources :summary_prompts, only: [:index, :create, :destroy]
