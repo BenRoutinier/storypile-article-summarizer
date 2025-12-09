@@ -9,6 +9,13 @@
                 label: "Tags (comma-separated)",
                 input_html: { placeholder: "news, politics, tech" } %>
 
+    <%= f.input :curation_id,
+                collection: current_user.curations,
+                label_method: :title,
+                value_method: :id,
+                include_blank: "None",
+                label: "Curation (optional)" %>
+
     <%= f.input :summary_prompt_id,
                 collection: current_user.summary_prompts,
                 label_method: :name,

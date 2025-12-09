@@ -6,6 +6,8 @@ class Article < ApplicationRecord
   has_many :conversations, dependent: :destroy
   has_many :bookmarks, dependent: :destroy
 
+  attr_accessor :curation_id
+
   validates :link,
             presence: true,
             uniqueness: { scope: :user_id },

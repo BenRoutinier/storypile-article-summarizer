@@ -33,6 +33,9 @@
             <%= link_to "My Summary Prompts", summary_prompts_path, class: "nav-link" %>
           </li>
           <li class="nav-item d-md-none">
+            <%= link_to "My Curations", curations_path, class: "nav-link" %>
+          </li>
+          <li class="nav-item d-md-none">
             <%= link_to "Log out", destroy_user_session_path,
                         data: { turbo_method: :delete }, class: "nav-link" %>
           </li>
@@ -48,13 +51,14 @@
       <ul class="navbar-nav d-none d-md-flex">
         <li class="nav-item dropdown">
           <a href="#" class="nav-link dropdown-toggle-no-caret"
-             id="desktopMenuDropdown" role="button" data-bs-toggle="dropdown">
+              id="desktopMenuDropdown" role="button" data-bs-toggle="dropdown">
             <i class="fa-solid fa-bars fa-lg"></i>
           </a>
 
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="desktopMenuDropdown">
             <li><%= link_to "My Articles", root_path, class: "dropdown-item" %></li>
             <li><%= link_to "My Summary Prompts", summary_prompts_path, class: "dropdown-item" %></li>
+            <li><%= link_to "My Curations", curations_path, class: "dropdown-item" %></li>
             <li><%= link_to "Log out", destroy_user_session_path,
                             data: { turbo_method: :delete }, class: "dropdown-item" %></li>
           </ul>
