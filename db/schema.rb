@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_12_02_115240) do
+ActiveRecord::Schema[7.1].define(version: 2025_12_08_142516) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -23,8 +23,22 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_02_115240) do
     t.text "summary"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "tags"
+    t.text "subheadline"
+    t.string "image_link"
+    t.boolean "archived", default: false
+    t.boolean "favourited", default: false
     t.index ["summary_prompt_id"], name: "index_articles_on_summary_prompt_id"
     t.index ["user_id"], name: "index_articles_on_user_id"
+  end
+
+  create_table "bookmarks", force: :cascade do |t|
+    t.bigint "article_id", null: false
+    t.bigint "curation_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["article_id"], name: "index_bookmarks_on_article_id"
+    t.index ["curation_id"], name: "index_bookmarks_on_curation_id"
   end
 
   create_table "conversations", force: :cascade do |t|
@@ -33,6 +47,14 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_02_115240) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["article_id"], name: "index_conversations_on_article_id"
+  end
+
+  create_table "curations", force: :cascade do |t|
+    t.bigint "article_id", null: false
+    t.string "title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["article_id"], name: "index_curations_on_article_id"
   end
 
   create_table "messages", force: :cascade do |t|
@@ -67,7 +89,10 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_02_115240) do
 
   add_foreign_key "articles", "summary_prompts"
   add_foreign_key "articles", "users"
+  add_foreign_key "bookmarks", "articles"
+  add_foreign_key "bookmarks", "curations"
   add_foreign_key "conversations", "articles"
+  add_foreign_key "curations", "articles"
   add_foreign_key "messages", "conversations"
   add_foreign_key "summary_prompts", "users"
 end

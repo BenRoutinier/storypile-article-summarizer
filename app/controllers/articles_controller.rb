@@ -4,11 +4,11 @@ class ArticlesController < ApplicationController
   before_action :set_article, only: [:show, :destroy, :regenerate_summary]
 
   def index
-    @articles = current_user.articles.order(created_at: :desc)
+    set_articles
   end
 
   def show
-    #set_article
+    # set_article
   end
 
   def create
@@ -17,9 +17,21 @@ class ArticlesController < ApplicationController
     if @article.save
       redirect_to conversation_path(@article.conversations.first)
     else
-      @articles = current_user.articles.all
+      set_articles
       render "articles/index", status: :unprocessable_entity
     end
+  end
+
+  def archive
+    @article = current_user.articles.find(params[:id])
+    @article.update(archived: !@article.archived)
+    redirect_back fallback_location: articles_path
+  end
+
+  def favourite
+    @article = current_user.articles.find(params[:id])
+    @article.update(favourited: !@article.favourited)
+    redirect_back fallback_location: articles_path
   end
 
   def regenerate_summary
@@ -39,11 +51,15 @@ class ArticlesController < ApplicationController
 
   private
 
+  def set_articles
+    @articles = current_user.articles.order(created_at: :desc)
+  end
+
   def set_article
     @article = current_user.articles.find(params[:id])
   end
 
   def article_params
-    params.require(:article).permit(:link, :summary_prompt_id)
+    params.require(:article).permit(:link, :summary_prompt_id, :tags)
   end
 end
