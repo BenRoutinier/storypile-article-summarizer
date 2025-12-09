@@ -39,13 +39,15 @@
 
       <!-- Actions -->
       <% if curation %>
-        <% bookmark = Bookmark.find_by(article_id: article.id, curation_id: curation.id) %>
-        <%= button_to bookmark_path(bookmark),
-              method: :delete,
-              class: "btn btn-link btn-sm p-0 text-decoration-none text-danger",
-              form: { data: { turbo_confirm: 'Remove from curation?' }, style: "display: inline;" } do %>
-          <i class="fa-solid fa-minus"></i>
-        <% end %>
+        <div class="card-footer bg-white border-top d-flex justify-content-end gap-2">
+          <% bookmark = Bookmark.find_by(article_id: article.id, curation_id: curation.id) %>
+          <%= button_to bookmark_path(bookmark),
+                method: :delete,
+                class: "btn btn-link btn-sm p-0 text-decoration-noner",
+                form: { data: { turbo_confirm: 'Remove from curation?' }, style: "display: inline;" } do %>
+            <i class="fa-solid fa-circle-minus"></i>
+          <% end %>
+         </div>
       <% else %>
         <div class="card-footer bg-white border-top d-flex justify-content-end gap-2">
           <%= button_to favourite_article_path(article),

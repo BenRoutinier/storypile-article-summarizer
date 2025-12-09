@@ -30,9 +30,9 @@
           <% bookmark = Bookmark.find_by(article_id: article.id, curation_id: curation.id) %>
           <%= button_to bookmark_path(bookmark),
               method: :delete,
-              class: "btn btn-link btn-sm p-0 text-decoration-none text-danger",
+              class: "btn btn-link btn-sm p-0 text-decoration-none",
               form: { data: { turbo_confirm: 'Remove from curation?' }, style: "display: inline;" } do %>
-            <i class="fa-solid fa-minus"></i>
+            <i class="fa-solid fa-circle-minus"></i>
           <% end %>
         <% else %>
           <%= button_to favourite_article_path(article),
