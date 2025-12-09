@@ -22,6 +22,14 @@
         <span class="badge bg-light text-dark border"><%= tag.strip %></span>
       <% end %>
     <% end %>
+
+    <% if article.curations.any? %>
+      <% article.curations.each do |curation| %>
+        <span class="badge bg-secondary text-dark border">
+      <%=link_to curation.title, curation_path(curation), class: "text-decoration-none text-dark"%>
+      </span>
+      <% end %>
+    <% end %>
   </div>
 
   <% if article.image_link.present? %>
