@@ -5,7 +5,25 @@
 <h1><%= @curation.title %></h1>
 
 <% @articles.each do |article| %>
-  <%= render "articles/articlecard", article: article %>
+  <% bookmark = Bookmark.find_by(article_id: article.id, curation_id: @curation.id) %>
+  <div class="d-flex align-items-center mb-3">
+
+    <!-- ARTICLE CARD -->
+    <div class="me-3">
+      <%= render "articles/articlecard_sm", article: article %>
+    </div>
+
+    <!-- MINUS BUTTON -->
+    <div>
+      <%= button_to bookmark_path(bookmark),
+            method: :delete,
+            class: "btn btn-outline-danger btn-sm",
+            form: { data: { turbo_confirm: 'Remove this article from the curation?' } } do %>
+        <i class="fa-solid fa-minus"></i>
+      <% end %>
+    </div>
+
+  </div>
 <% end %>
 
   <div class="mt-4">

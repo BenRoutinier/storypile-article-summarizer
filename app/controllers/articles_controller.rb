@@ -23,6 +23,12 @@ class ArticlesController < ApplicationController
     @article = current_user.articles.build(article_params)
 
     if @article.save
+      if params[:article][:curation_id].present?
+      Bookmark.create(
+        article: @article,
+        curation_id: params[:article][:curation_id]
+      )
+    end
       redirect_to conversation_path(@article.conversations.first)
     else
       set_articles
