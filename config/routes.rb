@@ -17,6 +17,10 @@ Rails.application.routes.draw do
       patch :favourite
       post :regenerate_summary
     end
+    collection do
+      get :archived
+      get :favourites
+    end
   end
   resources :bookmarks, only: [:destroy]
   resources :summary_prompts, only: [:index, :create, :destroy]

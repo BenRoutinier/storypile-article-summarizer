@@ -1,0 +1,9 @@
+        <% articles.each do |article| %>
+          <div class="col-12 col-sm-4 d-none d-md-block">
+            <%= render "articlecard", article: article %>
+          </div>
+
+          <div class="col-12 d-block d-md-none">
+            <%= render "articlecard_sm", article: article %>
+          </div>
+        <% end %>

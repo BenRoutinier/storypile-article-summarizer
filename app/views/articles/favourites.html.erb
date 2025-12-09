@@ -1,0 +1,10 @@
+<div class="container my-4">
+  <h1 class="text-center mb-4">Favourite Articles</h1>
+  <div class="row g-3">
+    <%= render "shared/manyarticles", articles: @articles %>
+  </div>
+
+  <% if @articles.empty? %>
+    <p class="text-center text-muted">No favourite articles yet.</p>
+  <% end %>
+</div>
