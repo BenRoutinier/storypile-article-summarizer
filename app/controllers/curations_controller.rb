@@ -14,7 +14,7 @@ class CurationsController < ApplicationController
 
 
     if @curation.save
-      redirect_to curations_path, notice: "Curation #{:title} created"
+      redirect_to curations_path, notice: "Curation #{@curation.title} created"
     else
       @curations = current_user.curations
       render :index, status: :unprocessable_entity
@@ -32,7 +32,7 @@ class CurationsController < ApplicationController
   def destroy
     title = @curation.title
     @curation.destroy
-    redirect_to curations_path, notice: "Curation #{:title} deleted"
+    redirect_to curations_path, notice: "Curation #{title} deleted"
   end
 
   private
