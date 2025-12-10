@@ -2,19 +2,16 @@
 <div class="card h-100 shadow-sm">
   <div class="row g-0 align-items-center flex-nowrap">
 
-    <div class="col">
+    <div class="col overflow-hidden">
       <%= link_to conversation_path(article), class: "text-decoration-none text-reset" do %>
         <div class="p-2">
-          <h6 class="card-title mb-1" style=" display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;"><%= article.headline %></h6>
+          <h6 class="card-title mb-1 line-clamp-2"><%= article.headline %></h6>
           <small class="text-muted"><%= article.created_at.strftime("%B %d, %Y") %></small>
         </div>
       <% end %>
     </div>
 
-    <div class="col-auto d-flex flex-column align-items-end p-2">
+    <div class="col-auto d-flex flex-column align-items-end p-2 flex-shrink-0">
       <div style="width: 120px; aspect-ratio: 2/1; overflow: hidden;">
         <% if article.image_link.present? %>
           <%= image_tag article.image_link, class: "w-100 h-100 object-fit-cover rounded" %>
@@ -30,7 +27,7 @@
           <% bookmark = Bookmark.find_by(article_id: article.id, curation_id: curation.id) %>
           <%= button_to bookmark_path(bookmark),
               method: :delete,
-              class: "btn btn-link btn-sm p-0 text-decoration-none",
+              class: "btn btn-link btn-sm p-0 text-decoration-none text-danger",
               form: { data: { turbo_confirm: 'Remove from curation?' }, style: "display: inline;" } do %>
             <i class="fa-solid fa-circle-minus"></i>
           <% end %>
@@ -49,6 +46,7 @@
             <i class="fa-solid fa-trash"></i>
           <% end %>
         <% end %>
+      </div>
     </div>
   </div>
 </div>

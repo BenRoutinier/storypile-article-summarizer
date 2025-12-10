@@ -20,6 +20,7 @@ Rails.application.routes.draw do
     collection do
       get :archived
       get :favourites
+      get :search
     end
   end
   resources :bookmarks, only: [:destroy]

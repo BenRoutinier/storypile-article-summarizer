@@ -77,6 +77,6 @@ gem "devise"
 
 gem "ruby_llm", "~> 1.2.0"
 
-gem "dotenv-rails", groups: [:development, :test]
-
 gem "nokogiri"
+
+gem 'pg_search'
