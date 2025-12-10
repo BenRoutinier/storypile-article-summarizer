@@ -6,16 +6,16 @@ class BookmarksController < ApplicationController
     @bookmark = Bookmark.new(bookmark_params)
 
     if @bookmark.save
-      redirect_to curation_path(@bookmark.curation_id), notice: "Article added to the list."
+      redirect_back fallback_location: articles_path, notice: "Article added to the list."
     else
-      redirect_back fallback_location: curations_path, alert: "Could not add article."
+      redirect_back fallback_location: articles_path, alert: "Could not add article."
     end
   end
 
   def destroy
     curation = @bookmark.curation
     @bookmark.destroy
-    redirect_to curation_path(curation), notice: "Article deleted from the curation"
+    redirect_back fallback_location: articles_path, notice: "Article deleted from the curation"
   end
 
   private

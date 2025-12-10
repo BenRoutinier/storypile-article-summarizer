@@ -1,0 +1,31 @@
+<% current_user.curations.each do |curation| %>
+  <% bookmark = Bookmark.find_by(article_id: article.id, curation_id: curation.id) %>
+
+  <li class="dropdown-item d-flex justify-content-between align-items-center">
+
+    <span><%= curation.title %></span>
+
+    <% if bookmark.present? %>
+
+      <!-- REMOVE from curation -->
+      <%= button_to bookmark_path(bookmark),
+            method: :delete,
+            class: "btn btn-sm btn-outline-danger",
+            form: { data: { turbo_confirm: "Remove from #{curation.title}?" } } do %>
+        <i class="fa-solid fa-minus"></i>
+      <% end %>
+
+    <% else %>
+
+      <!-- ADD to curation -->
+      <%= button_to bookmarks_path,
+            method: :post,
+            params: { bookmark: { article_id: article.id, curation_id: curation.id } },
+            class: "btn btn-sm btn-outline-success" do %>
+        <i class="fa-solid fa-plus"></i>
+      <% end %>
+
+    <% end %>
+
+  </li>
+<% end %>
