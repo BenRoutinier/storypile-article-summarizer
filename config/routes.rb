@@ -23,7 +23,7 @@ Rails.application.routes.draw do
       get :search
     end
   end
-  resources :bookmarks, only: [:destroy]
+  resources :bookmarks, only: [:create,:destroy]
   resources :summary_prompts, only: [:index, :create, :destroy]
   resources :conversations, only: [:show] do
     resources :messages, only: [:create]
