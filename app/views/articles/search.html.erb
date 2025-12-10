@@ -1,0 +1,20 @@
+<div class="container my-4">
+  <h1 class="text-center mb-4">Search Articles</h1>
+
+  <div class="row">
+    <div class="col-12 col-md-4">
+      <%= render "shared/searchform" %>
+    </div>
+
+    <div class="col-12 col-md-8">
+      <% if @articles.any? %>
+        <p class="text-muted mb-3"><%= @articles.count %> article(s) found</p>
+        <div class="row g-3">
+          <%= render "shared/manyarticles", articles: @articles, col_class: "col-md-6" %>
+        </div>
+      <% else %>
+        <p class="text-center text-muted">No articles found matching your criteria.</p>
+      <% end %>
+    </div>
+  </div>
+</div>

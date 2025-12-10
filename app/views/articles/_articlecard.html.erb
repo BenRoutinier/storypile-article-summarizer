@@ -1,70 +1,55 @@
 <% curation ||= nil %>
-<div>
-  <div class="position-relative h-100">
-    <div class="card h-100 shadow-sm">
-      <!-- Image with archive checkbox -->
-      <div class="position-relative" style="aspect-ratio: 2/1; overflow: hidden;">
-        <% if article.image_link.present? %>
-          <%= image_tag article.image_link, class: "w-100 h-100 object-fit-cover" %>
-        <% else %>
-          <div class="w-100 h-100 bg-light d-flex align-items-center justify-content-center">
-            <i class="fa-solid fa-newspaper text-muted fa-2x"></i>
-          </div>
-        <% end %>
-
-        <!-- Archive checkbox -->
-        <% unless curation %>
-          <%= button_to archive_article_path(article),
-              method: :patch,
-              class: "position-absolute top-0 end-0 m-2 p-0 border-0 bg-transparent",
-              form: { style: "display: inline;" } do %>
-            <div class="form-check">
-              <input type="checkbox"
-                    class="form-check-input border-2"
-                    style="width: 1.5rem; height: 1.5rem; cursor: pointer;"
-                    <%= 'checked' if article.archived? %>
-                    readonly>
-            </div>
-          <% end %>
-        <% end %>
+<div class="card shadow-sm">
+  <div class="position-relative" style="aspect-ratio: 2/1; overflow: hidden;">
+    <% if article.image_link.present? %>
+      <%= image_tag article.image_link, class: "w-100 h-100 object-fit-cover" %>
+    <% else %>
+      <div class="w-100 h-100 bg-light d-flex align-items-center justify-content-center">
+        <i class="fa-solid fa-newspaper text-muted fa-2x"></i>
       </div>
+    <% end %>
 
-      <!-- Content -->
-      <%= link_to conversation_path(article), class: "text-decoration-none text-reset" do %>
-        <div class="card-body bg-white">
-          <h5 class="card-title mb-1"><%= article.headline %></h5>
-          <small class="text-muted">Created: <%= article.created_at.strftime("%B %d, %Y") %></small>
-        </div>
+    <% unless curation %>
+      <%= button_to favourite_article_path(article),
+          method: :patch,
+          class: "position-absolute top-0 end-0 m-2 p-0 border-0 bg-transparent text-white",
+          form: { style: "display: inline;" } do %>
+        <i class="fa<%= article.favourited? ? '-solid' : '-regular' %> fa-heart"></i>
+      <% end %>
+    <% end %>
+  </div>
+
+  <%= link_to conversation_path(article), class: "text-decoration-none text-reset" do %>
+    <div class="card-body bg-white">
+      <h5 class="card-title mb-1"><%= article.headline %></h5>
+      <small class="text-muted">Created: <%= article.created_at.strftime("%B %d, %Y") %></small>
+    </div>
+  <% end %>
+
+  <div class="card-footer bg-white border-top d-flex justify-content-end gap-2">
+    <% if curation %>
+      <% bookmark = Bookmark.find_by(article_id: article.id, curation_id: curation.id) %>
+      <%= button_to bookmark_path(bookmark),
+            method: :delete,
+            class: "btn btn-link btn-sm p-0 text-decoration-none",
+            form: { data: { turbo_confirm: 'Remove from curation?' }, style: "display: inline;" } do %>
+        <i class="fa-solid fa-circle-minus"></i>
+      <% end %>
+    <% else %>
+      <%= button_to archive_article_path(article),
+          method: :patch,
+          class: "btn btn-link p-1 text-decoration-none text-dark",
+          form: { style: "display: inline;" } do %>
+        <i class="fa-<%= article.archived? ? "solid" : "regular" %> fa-circle-check"></i>
       <% end %>
 
-      <!-- Actions -->
-      <% if curation %>
-        <div class="card-footer bg-white border-top d-flex justify-content-end gap-2">
-          <% bookmark = Bookmark.find_by(article_id: article.id, curation_id: curation.id) %>
-          <%= button_to bookmark_path(bookmark),
-                method: :delete,
-                class: "btn btn-link btn-sm p-0 text-decoration-noner",
-                form: { data: { turbo_confirm: 'Remove from curation?' }, style: "display: inline;" } do %>
-            <i class="fa-solid fa-circle-minus"></i>
-          <% end %>
-         </div>
-      <% else %>
-        <div class="card-footer bg-white border-top d-flex justify-content-end gap-2">
-          <%= button_to favourite_article_path(article),
-              method: :patch,
-              class: "btn btn-link p-1 text-decoration-none",
-              form: { style: "display: inline;" } do %>
-            <i class="fa<%= article.favourited? ? '-solid' : '-regular' %> fa-heart <%= 'text-danger' if article.favourited? %>"></i>
-          <% end %>
 
-          <%= button_to article_path(article),
-              method: :delete,
-              class: "btn btn-link p-1 text-decoration-none text-dark",
-              form: { data: { turbo_confirm: 'Are you sure?' }, style: "display: inline;" } do %>
-            <i class="fa-solid fa-trash"></i>
-          <% end %>
-        <% end %>
-      </div>
-    </div>
+      <%= button_to article_path(article),
+          method: :delete,
+          class: "btn btn-link p-1 text-decoration-none text-dark",
+          form: { data: { turbo_confirm: 'Are you sure?' }, style: "display: inline;" } do %>
+        <i class="fa-solid fa-trash"></i>
+      <% end %>
+    <% end %>
   </div>
 </div>

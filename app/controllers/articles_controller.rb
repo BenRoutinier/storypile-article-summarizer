@@ -19,6 +19,22 @@ class ArticlesController < ApplicationController
     # set_article
   end
 
+  def search
+    @articles = current_user.articles
+
+    if params[:query].present?
+      @articles = @articles.search_fulltext(params[:query])
+    end
+
+    @articles = @articles
+      .archived_status(params[:archived])
+      .favourited_status(params[:favourited])
+      .in_curation(params[:curation_id])
+      .created_after(params[:created_after])
+      .created_before(params[:created_before])
+      .order(created_at: :desc)
+  end
+
   def create
     @article = current_user.articles.build(article_params)
 
@@ -66,7 +82,7 @@ class ArticlesController < ApplicationController
   private
 
   def set_articles
-    @articles = current_user.articles.order(created_at: :desc)
+    @articles = current_user.articles.where(archived: false).order(created_at: :desc)
   end
 
   def set_article

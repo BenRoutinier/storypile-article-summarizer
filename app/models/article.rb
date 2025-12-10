@@ -1,6 +1,8 @@
 require 'nokogiri'
 
 class Article < ApplicationRecord
+  include PgSearch::Model
+
   belongs_to :user
   belongs_to :summary_prompt, optional: true
   has_many :conversations, dependent: :destroy
@@ -19,6 +21,37 @@ class Article < ApplicationRecord
 
   before_validation :populate_from_link, on: :create
   after_create :create_initial_conversation
+
+  pg_search_scope :search_fulltext,
+                  against: [:headline, :subheadline, :body, :summary, :tags],
+                  using: {
+                    tsearch: { prefix: true }
+                  }
+
+  scope :archived_status, ->(status) {
+    return all if status.blank?
+    where(archived: status == 'true')
+  }
+
+  scope :favourited_status, ->(status) {
+    return all if status.blank?
+    where(favourited: status == 'true')
+  }
+
+  scope :in_curation, ->(curation_id) {
+    return all if curation_id.blank?
+    joins(:bookmarks).where(bookmarks: { curation_id: curation_id })
+  }
+
+  scope :created_after, ->(date) {
+    return all if date.blank?
+    where('created_at >= ?', date)
+  }
+
+  scope :created_before, ->(date) {
+    return all if date.blank?
+    where('created_at <= ?', date)
+  }
 
   def ai_summary(extra_instructions: "")
     ai_prompt = <<~PROMPT
