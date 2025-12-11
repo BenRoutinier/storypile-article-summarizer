@@ -14,15 +14,16 @@
           method: :patch,
           class: "position-absolute top-0 end-0 m-2 p-0 border-0 bg-transparent text-white",
           form: { style: "display: inline;" } do %>
-        <i class="fa<%= article.favourited? ? '-solid' : '-regular' %> fa-heart"></i>
-      <% end %>
+        <span class="badge rounded-3 bg-light border"  style="width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center;">
+          <i class="fa<%= article.favourited? ? '-solid' : '-regular' %> fa-heart text-muted fa-lg"></i>
+        </span>      <% end %>
     <% end %>
   </div>
 
   <%= link_to article_path(article), class: "text-decoration-none text-reset" do %>
-    <div class="card-body bg-white">
-      <h5 class="card-title mb-1"><%= article.headline %></h5>
-      <small class="text-muted">Created: <%= article.created_at.strftime("%B %d, %Y") %></small>
+    <div class="d-flex flex-column justify-content-between card-body bg-white h-100">
+      <div><h5 class="card-title mb-1"><%= article.headline %></h5></div>
+      <div><small class="text-muted">Created: <%= article.created_at.strftime("%B %d, %Y") %></small></div>
     </div>
   <% end %>
 
