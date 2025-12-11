@@ -11,27 +11,65 @@
       </div>
     </div>
 
-<div class="col-12 col-md-8">
-    <div class="row g-3">
-      <% if @summary_prompts.any? %>
-        <% @summary_prompts.each do |summary_prompt| %>
-        <div class="card mb-3 p-3 shadow-sm bg-white">
-                      <%= button_to summary_prompt_path(summary_prompt),
-                method: :delete,
-                class: "position-absolute bottom-0 end-0 m-2 px-1 rounded-3 border-0 text-black z-3 mobile-action-btn",
-                style: "background: transparent",
-                form: { data: { turbo_confirm: 'Are you sure?' } } do %>
-              <i class="fa-solid fa-trash"></i>
-            <% end %>
-          <h3><%= summary_prompt.name %></h3>
-          <p><%= summary_prompt.content %></p>
-          </div>
-          <% end %>
-      <% else %>
-        <p>No summary prompt yet</p>
-      <% end %>
-    </div>
+    <div class="col-12 col-md-8">
+      <div class="row g-3">
+        <% if @summary_prompts.any? %>
+          <% @summary_prompts.each do |summary_prompt| %>
+            <div class="col-12">
+              <div class="card mb-3 p-3 shadow-sm bg-white" data-controller="toggle-form">
+                <div class="position-relative" data-toggle-form-target="display">
+                  <%= button_to summary_prompt_path(summary_prompt),
+                      method: :delete,
+                      class: "position-absolute bottom-0 end-0 m-2 px-1 rounded-3 border-0 text-black z-3 mobile-action-btn",
+                      style: "background: transparent",
+                      form: { data: { turbo_confirm: 'Are you sure?' } } do %>
+                    <i class="fa-solid fa-trash"></i>
+                  <% end %>
 
+                  <button type="button"
+                          class="position-absolute top-0 end-0 m-2 px-1 rounded-3 border-0 text-black z-3 mobile-action-btn"
+                          style="background: transparent"
+                          data-action="click->toggle-form#show">
+                    <i class="fa-solid fa-pen"></i>
+                  </button>
+
+                  <h3><%= summary_prompt.name %></h3>
+                  <p><%= summary_prompt.content %></p>
+                </div>
+
+                <div class="d-none" data-toggle-form-target="form">
+                  <%= simple_form_for(summary_prompt,
+                      url: summary_prompt_path(summary_prompt),
+                      method: :patch,
+                      html: { class: "d-flex flex-column gap-3" }) do |f| %>
+
+                    <%= f.input :name,
+                                as: :string,
+                                label: "Prompt name",
+                                input_html: { placeholder: "E.g. Concise summary" } %>
+
+                    <%= f.input :content,
+                                as: :text,
+                                label: "Prompt content",
+                                input_html: { rows: 4, placeholder: "Summarize focusing on..." } %>
+
+                    <div class="d-flex gap-2">
+                      <%= f.button :submit, "Save", class: "btn btn-primary flex-grow-1" %>
+                      <button type="button"
+                              class="btn btn-outline-secondary"
+                              data-action="click->toggle-form#hide">
+                        Cancel
+                      </button>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        <% else %>
+          <p>No summary prompt yet</p>
+        <% end %>
       </div>
+    </div>
   </div>
 </div>

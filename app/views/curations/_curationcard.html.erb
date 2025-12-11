@@ -1,20 +1,54 @@
-      <div>
-        <div class="position-relative h-100">
+<div class="w-100">
+  <div data-controller="toggle-form">
+    <div class="position-relative h-100" data-toggle-form-target="display">
+      <div class="position-absolute top-0 end-0 m-2 d-flex gap-2">
+        <button type="button"
+                class="px-1 rounded-3 border-0 text-black z-3 mobile-action-btn"
+                style="background: transparent"
+                data-action="click->toggle-form#show">
+          <i class="fa-solid fa-pen"></i>
+        </button>
 
-            <%= button_to curation_path(curation),
-                method: :delete,
-                class: "position-absolute bottom-0 end-0 m-2 px-1 rounded-3 border-0 text-black z-3 mobile-action-btn",
-                style: "background: transparent",
-                form: { data: { turbo_confirm: 'Are you sure?' } } do %>
-              <i class="fa-solid fa-trash"></i>
-            <% end %>
-
-          <%= link_to curation_path(curation), class: "text-decoration-none text-reset" do %>
-            <div class="card h-100 shadow-sm">
-              <div class="card-body bg-white">
-                <h5 class="card-title"><%= curation.title %></h5>
-              </div>
-            </div>
-          <% end %>
-        </div>
+        <%= link_to curation_path(curation),
+            data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },
+            class: "px-1 rounded-3 border-0 text-black z-3 mobile-action-btn",
+            style: "background: transparent" do %>
+          <i class="fa-solid fa-trash"></i>
+        <% end %>
       </div>
+
+      <%= link_to curation_path(curation), class: "text-decoration-none text-reset" do %>
+        <div class="card h-100 shadow-sm">
+          <div class="card-body bg-white">
+            <h5 class="card-title"><%= curation.title %></h5>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="card h-100 shadow-sm d-none" data-toggle-form-target="form">
+      <div class="card-body bg-white">
+        <%= simple_form_for(curation,
+            url: curation_path(curation),
+            method: :patch,
+            html: { class: "d-flex flex-column gap-3" }) do |f| %>
+
+          <%= f.input :title,
+                      as: :string,
+                      label: "Curation Title",
+                      input_html: { placeholder: "Rename curation" } %>
+
+          <div class="d-flex gap-2">
+            <%= f.button :submit, "Save", class: "btn btn-primary flex-grow-1" %>
+            <button type="button"
+                    class="btn btn-outline-secondary"
+                    data-action="click->toggle-form#hide">
+              Cancel
+            </button>
+          </div>
+
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
