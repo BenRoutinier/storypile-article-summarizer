@@ -6,6 +6,9 @@ export default class extends Controller {
   toggle() {
     this.displayTarget.classList.toggle("d-none")
     this.formTarget.classList.toggle("d-none")
+    if (!this.formTarget.classList.contains("d-none")) {
+      this.focusFirstInput();
+    }
   }
 
   focusFirstInput() {
