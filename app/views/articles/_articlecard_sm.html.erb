@@ -3,7 +3,7 @@
   <div class="row g-0 align-items-center flex-nowrap">
 
     <div class="col overflow-hidden">
-      <%= link_to conversation_path(article), class: "text-decoration-none text-reset" do %>
+      <%= link_to article_path(article), class: "text-decoration-none text-reset" do %>
         <div class="p-2">
           <h6 class="card-title mb-1 line-clamp-2"><%= article.headline %></h6>
           <small class="text-muted"><%= article.created_at.strftime("%B %d, %Y") %></small>

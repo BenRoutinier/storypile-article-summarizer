@@ -17,12 +17,6 @@
             class: "btn btn-secondary" %>
     <% end %>
 
-    <% if article.tags.present? %>
-      <% article.tags.split(',').each do |tag| %>
-        <%= link_to tag.strip, tag_path(tag.strip), class: "badge bg-light text-dark border text-decoration-none" %>
-      <% end %>
-    <% end %>
-
     <% if article.curations.any? %>
       <% article.curations.each do |curation| %>
         <span class="badge bg-secondary text-dark border">
@@ -31,7 +25,7 @@
       <% end %>
     <% end %>
 
-    <div class="dropdown mb-3">
+    <div class="dropdown">
       <button class = "btn btn-outline-secondary dropdown-toggle"
       type="button"
       data-bs-toggle="dropdown"
@@ -53,3 +47,7 @@
   <% if article.summary.present? %>
     <%= render "articles/summary", article: article %>
   <% end %>
+
+  <%= yield %>
+
+  <%= render "articles/tags", article: article %>

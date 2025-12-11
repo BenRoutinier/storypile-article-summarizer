@@ -19,7 +19,7 @@
     <% end %>
   </div>
 
-  <%= link_to conversation_path(article), class: "text-decoration-none text-reset" do %>
+  <%= link_to article_path(article), class: "text-decoration-none text-reset" do %>
     <div class="card-body bg-white">
       <h5 class="card-title mb-1"><%= article.headline %></h5>
       <small class="text-muted">Created: <%= article.created_at.strftime("%B %d, %Y") %></small>

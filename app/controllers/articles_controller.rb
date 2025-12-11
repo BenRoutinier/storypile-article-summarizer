@@ -72,8 +72,22 @@ class ArticlesController < ApplicationController
     new_summary = @article.ai_summary(extra_instructions: extra_instructions)
 
     @article.update!(summary: new_summary)
+    @article.reload
+    render partial: "articles/summary", locals: { article: @article }
+  end
 
-    redirect_to request.referrer || conversation_path(@article.conversations.first), notice: "Summary regenerated!"
+  def update_tags
+    @article = current_user.articles.find(params[:id])
+    @article.update!(tags: params[:tags])
+    @article.reload
+    render partial: "articles/tags", locals: { article: @article }
+  end
+
+  def update_summary_prompt
+    @article = current_user.articles.find(params[:id])
+    @article.update!(summary_prompt_id: params[:summary_prompt_id])
+    @article.reload
+    render partial: "articles/summary", locals: { article: @article }
   end
 
   def destroy

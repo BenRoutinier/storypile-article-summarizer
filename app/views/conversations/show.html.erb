@@ -4,7 +4,7 @@
     <%= link_to "See full article", article_path(@conversation.article), class: "btn btn-primary mb-3" %>
   </div>
 
-  <%= render "articles/article_head", article: @conversation.article %>
+  <%= render layout: "articles/article_head", locals: { article: @conversation.article } do %>
 
     <div class="card mb-4">
       <div class="card-body bg-white">
@@ -18,4 +18,7 @@
         </div>
       </div>
     </div>
+
+  <% end %>
+
   </div>
