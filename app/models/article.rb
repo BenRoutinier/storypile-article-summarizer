@@ -20,6 +20,7 @@ class Article < ApplicationRecord
             }
 
   before_validation :populate_from_link, on: :create
+  before_validation :normalize_tags
   after_create :create_initial_conversation
 
   pg_search_scope :search_fulltext,
@@ -27,6 +28,23 @@ class Article < ApplicationRecord
                   using: {
                     tsearch: { prefix: true }
                   }
+
+  scope :with_tag, ->(tag) {
+  return none if tag.blank?
+
+  sanitized_tag = tag.strip.downcase
+
+  where(
+    "LOWER(tags) = :exact OR
+     LOWER(tags) LIKE :start OR
+     LOWER(tags) LIKE :end OR
+     LOWER(tags) LIKE :middle",
+    exact: sanitized_tag,
+    start: "#{sanitized_tag},%",
+    end: "%,#{sanitized_tag}",
+    middle: "%,#{sanitized_tag},%"
+    )
+  }
 
   scope :archived_status, ->(status) {
     return all if status.blank?
@@ -52,6 +70,10 @@ class Article < ApplicationRecord
     return all if date.blank?
     where('created_at <= ?', date)
   }
+
+  def self.tag_exists?(user, tag)
+    user.articles.with_tag(tag).exists?
+  end
 
   def ai_summary(extra_instructions: "")
     ai_prompt = <<~PROMPT
@@ -89,6 +111,11 @@ class Article < ApplicationRecord
   end
 
   private
+
+  def normalize_tags
+    return if tags.blank?
+    self.tags = tags.split(',').map(&:strip).reject(&:empty?).join(',')
+  end
 
   def populate_from_link
     return if link.blank?
@@ -141,13 +168,19 @@ class Article < ApplicationRecord
     doc = Nokogiri::HTML(html)
 
     article_tag = doc.at('article')
+
     paragraphs = if article_tag
                    article_tag.css('p')
                  else
                    doc.css('p')
                  end
 
-    meaningful_paragraphs = paragraphs.map(&:text).map(&:strip).select { |p| p.match?(/[.?!]/) }
+    meaningful_paragraphs = paragraphs
+      .map(&:text)
+      .flat_map { |p| p.split(/\n+/) }
+      .map(&:strip)
+      .reject(&:empty?)
+      .select { |p| p.match?(/[.?!]['"“”‘’„”«»]*\s*$/) }
 
     self.body = meaningful_paragraphs.join("\n\n")
   end

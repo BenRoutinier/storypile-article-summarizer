@@ -12,22 +12,29 @@ Rails.application.routes.draw do
 
   resources :articles, except: [:new, :edit, :update] do
     resources :bookmarks, only: [:create]
+
     member do
       patch :archive
       patch :favourite
       post :regenerate_summary
     end
+
     collection do
       get :archived
       get :favourites
       get :search
     end
   end
+
   resources :bookmarks, only: [:create,:destroy]
+
   resources :summary_prompts, only: [:index, :create, :destroy]
+
   resources :conversations, only: [:show] do
     resources :messages, only: [:create]
   end
+
   resources :curations, only: [:index, :show, :create, :destroy]
 
+  get 'tags/:tag', to: 'tags#show', as: :tag
 end

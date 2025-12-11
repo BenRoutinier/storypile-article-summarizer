@@ -19,7 +19,7 @@
 
     <% if article.tags.present? %>
       <% article.tags.split(',').each do |tag| %>
-        <span class="badge bg-light text-dark border"><%= tag.strip %></span>
+        <%= link_to tag.strip, tag_path(tag.strip), class: "badge bg-light text-dark border text-decoration-none" %>
       <% end %>
     <% end %>
 
