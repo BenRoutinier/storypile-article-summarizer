@@ -5,7 +5,7 @@
         <button type="button"
                 class="px-1 rounded-3 border-0 text-black z-3 mobile-action-btn"
                 style="background: transparent"
-                data-action="click->toggle-form#show">
+                data-action="click->toggle-form#toggle">
           <i class="fa-solid fa-pen"></i>
         </button>
 
@@ -42,7 +42,7 @@
             <%= f.button :submit, "Save", class: "btn btn-primary flex-grow-1" %>
             <button type="button"
                     class="btn btn-outline-secondary"
-                    data-action="click->toggle-form#hide">
+                    data-action="click->toggle-form#toggle">
               Cancel
             </button>
           </div>

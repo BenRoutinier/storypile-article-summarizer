@@ -1,7 +1,7 @@
 require 'open-uri'
 
 class ArticlesController < ApplicationController
-  before_action :set_article, only: [:show, :destroy, :regenerate_summary]
+  before_action :set_article, only: [:show, :destroy, :regenerate_summary, :archive, :favourite, :regenerate_summary, :update_summary_prompt, :update_tags]
 
   def index
     set_articles
@@ -55,18 +55,19 @@ class ArticlesController < ApplicationController
   end
 
   def archive
-    @article = current_user.articles.find(params[:id])
+    # set_article
     @article.update(archived: !@article.archived)
     redirect_back fallback_location: articles_path
   end
 
   def favourite
-    @article = current_user.articles.find(params[:id])
+    # set_article
     @article.update(favourited: !@article.favourited)
     redirect_back fallback_location: articles_path
   end
 
   def regenerate_summary
+    # set_article
     extra_instructions = params[:extra_instructions].to_s
 
     new_summary = @article.ai_summary(extra_instructions: extra_instructions)
@@ -77,20 +78,21 @@ class ArticlesController < ApplicationController
   end
 
   def update_tags
-    @article = current_user.articles.find(params[:id])
+    # set_article
     @article.update!(tags: params[:tags])
     @article.reload
     render partial: "articles/tags", locals: { article: @article }
   end
 
   def update_summary_prompt
-    @article = current_user.articles.find(params[:id])
+    # set_article
     @article.update!(summary_prompt_id: params[:summary_prompt_id])
     @article.reload
     render partial: "articles/summary", locals: { article: @article }
   end
 
   def destroy
+    # set_article
     @article.destroy
     redirect_to articles_path, notice: "Article deleted"
   end
