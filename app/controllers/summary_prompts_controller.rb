@@ -1,4 +1,6 @@
 class SummaryPromptsController < ApplicationController
+  before_action :set_summary_prompt, only: [:update, :destroy]
+
   def index
     @summary_prompts = current_user.summary_prompts.order(created_at: :desc)
   end
@@ -14,13 +16,25 @@ class SummaryPromptsController < ApplicationController
     end
   end
 
+  def update
+    if @summary_prompt.update(summary_prompt_params)
+      redirect_to summary_prompts_path, notice: "Summary prompt updated."
+    else
+      @summary_prompts = current_user.summary_prompts.order(created_at: :desc)
+      render :index, status: :unprocessable_entity
+    end
+  end
+
   def destroy
-    @summary_prompt = current_user.summary_prompts.find(params[:id])
     @summary_prompt.destroy
     redirect_to summary_prompts_path, status: :see_other
   end
 
   private
+
+  def set_summary_prompt
+    @summary_prompt = current_user.summary_prompts.find(params[:id])
+  end
 
   def summary_prompt_params
     params.require(:summary_prompt).permit(:name, :content)

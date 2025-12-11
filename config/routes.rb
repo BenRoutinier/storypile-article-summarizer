@@ -30,13 +30,13 @@ Rails.application.routes.draw do
 
   resources :bookmarks, only: [:create,:destroy]
 
-  resources :summary_prompts, only: [:index, :create, :destroy]
+  resources :summary_prompts, only: [:index, :create, :destroy, :update]
 
   resources :conversations, only: [:show] do
     resources :messages, only: [:create]
   end
 
-  resources :curations, only: [:index, :show, :create, :destroy]
+  resources :curations, only: [:index, :show, :create, :destroy, :update]
 
   get 'tags/:tag', to: 'tags#show', as: :tag
 end
