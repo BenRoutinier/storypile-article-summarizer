@@ -1,6 +1,6 @@
 <%= turbo_frame_tag "article_tags" do %>
-  <div id="tags" class="mt-4" data-controller="inline-edit">
-    <div data-inline-edit-target="display">
+  <div id="tags" class="mt-4" data-controller="toggle-form">
+    <div data-toggle-form-target="display">
       <% if article.tags.present? %>
         <% article.tags.split(',').each do |tag| %>
           <%= link_to tag.strip, tag_path(tag.strip), class: "badge bg-light text-dark border text-decoration-none", data: { turbo_frame: "_top" } %>
@@ -8,16 +8,16 @@
       <% else %>
         <span class="text-muted">No tags</span>
       <% end %>
-      <button type="button" class="btn btn-link btn-sm p-0 ms-2" data-action="click->inline-edit#toggle">
+      <button type="button" class="btn btn-link btn-sm p-0 ms-2" data-action="click->toggle-form#toggle">
         <i class="fa-solid fa-pen-to-square text-muted"></i>
       </button>
     </div>
 
-    <div data-inline-edit-target="edit" class="d-none">
+    <div data-toggle-form-target="form" class="d-none">
       <%= form_with url: update_tags_article_path(article), method: :patch, class: "d-flex gap-2 align-items-center" do |f| %>
         <%= f.text_field :tags, value: article.tags, class: "form-control form-control-sm", placeholder: "news, politics, tech", style: "max-width: 300px;" %>
         <%= f.submit "Save", class: "btn btn-primary btn-sm" %>
-        <button type="button" class="btn btn-outline-secondary btn-sm" data-action="click->inline-edit#toggle">Cancel</button>
+        <button type="button" class="btn btn-outline-secondary btn-sm" data-action="click->toggle-form#toggle">Cancel</button>
       <% end %>
     </div>
   </div>
