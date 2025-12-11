@@ -16,6 +16,8 @@ Rails.application.routes.draw do
     member do
       patch :archive
       patch :favourite
+      patch :update_summary_prompt
+      patch :update_tags
       post :regenerate_summary
     end
 
