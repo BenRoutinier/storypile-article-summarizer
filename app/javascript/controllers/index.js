@@ -8,3 +8,5 @@ import SubmitOnEnterController from "controllers/submit_on_enter_controller"
 application.register("submit-on-enter", SubmitOnEnterController)
 import ToggleFormController from "controllers/toggle_form_controller"
 application.register("toggle-form", ToggleFormController)
+import MobileDropdownController from "controllers/mobile_dropdown_controller"
+application.register("mobile-dropdown", MobileDropdownController)
