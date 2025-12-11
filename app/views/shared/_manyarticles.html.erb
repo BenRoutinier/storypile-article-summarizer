@@ -1,7 +1,9 @@
         <% curation ||= nil %>
         <% articles.each do |article| %>
           <div class="col-12 col-sm-4 d-none d-md-block">
-            <%= render "articles/articlecard", article: article, curation: curation %>
+            <div class="article-card-wrapper">
+              <%= render "articles/articlecard", article: article, curation: curation %>
+            </div>
           </div>
 
           <div class="col-12 d-block d-md-none">
