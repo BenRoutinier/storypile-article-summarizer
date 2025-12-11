@@ -1,0 +1,46 @@
+<nav class="storypile-footer d-md-none fixed-bottom border-top py-2 px-3">
+  <div class="d-flex justify-content-around align-items-center">
+    <%= link_to articles_path, class: "btn btn-link text-dark p-2" do %>
+      <i class="fa-solid fa-house fa-lg"></i>
+    <% end %>
+
+    <button type="button" class="btn btn-primary rounded-circle p-0"
+            style="width: 56px; height: 56px; margin-top: -28px;"
+            data-bs-toggle="modal" data-bs-target="#addArticleModal">
+      <i class="fa-solid fa-plus fa-lg"></i>
+    </button>
+
+    <button type="button" class="btn btn-link text-dark p-2"
+            data-bs-toggle="modal" data-bs-target="#searchModal">
+      <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+    </button>
+  </div>
+</nav>
+
+<div class="modal fade" id="addArticleModal" tabindex="-1" aria-labelledby="addArticleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addArticleModalLabel">Add a New Article</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <%= render "articles/form", article: Article.new %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addArticleModalLabel">Search Articles</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <%= render "shared/searchform" %>
+      </div>
+    </div>
+  </div>
+</div>

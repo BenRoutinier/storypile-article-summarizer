@@ -20,18 +20,20 @@ class ArticlesController < ApplicationController
   end
 
   def search
+    search_params = params[:search] || {}
+
     @articles = current_user.articles
 
-    if params[:query].present?
-      @articles = @articles.search_fulltext(params[:query])
+    if search_params[:query].present?
+      @articles = @articles.search_fulltext(search_params[:query])
     end
 
     @articles = @articles
-      .archived_status(params[:archived])
-      .favourited_status(params[:favourited])
-      .in_curation(params[:curation_id])
-      .created_after(params[:created_after])
-      .created_before(params[:created_before])
+      .archived_status(search_params[:archived])
+      .favourited_status(search_params[:favourited])
+      .in_curation(search_params[:curation_id])
+      .created_after(search_params[:created_after])
+      .created_before(search_params[:created_before])
       .order(created_at: :desc)
   end
 

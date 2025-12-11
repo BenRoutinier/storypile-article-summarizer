@@ -16,5 +16,9 @@
 
     <%= render "shared/flashes" %>
 
+    <% if user_signed_in? %>
+      <%= render "shared/mobile_footer" %>
+    <% end %>
+
   </body>
 </html>
