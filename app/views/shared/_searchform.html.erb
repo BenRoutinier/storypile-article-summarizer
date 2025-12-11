@@ -1,42 +1,48 @@
-<%= form_with url: search_articles_path, method: :get, local: true, class: "card p-3 mb-4" do |f| %>
-  <h5 class="card-title mb-3">Search Articles</h5>
+<%= simple_form_for :search, url: search_articles_path, method: :get, html: { class: "row g-3" } do |f| %>
 
-  <div class="mb-3">
-    <%= f.label :query, "Search text", class: "form-label" %>
-    <%= f.text_field :query, value: params[:query], class: "form-control", placeholder: "Search headlines, body, tags..." %>
+  <%= f.input :query,
+              as: :string,
+              label: "Search text",
+              input_html: { placeholder: "Search headlines, body, tags...", value: params[:query] } %>
+
+  <div class="col-6">
+    <%= f.input :archived,
+                collection: [["Any", ""], ["Yes", "true"], ["No", "false"]],
+                selected: params[:archived],
+                label: "Archived" %>
   </div>
 
-  <div class="row mb-3">
-    <div class="col-6">
-      <%= f.label :archived, "Archived", class: "form-label" %>
-      <%= f.select :archived, [["Any", ""], ["Yes", "true"], ["No", "false"]], { selected: params[:archived] }, class: "form-select" %>
-    </div>
-
-    <div class="col-6">
-      <%= f.label :favourited, "Favourited", class: "form-label" %>
-      <%= f.select :favourited, [["Any", ""], ["Yes", "true"], ["No", "false"]], { selected: params[:favourited] }, class: "form-select" %>
-    </div>
+  <div class="col-6">
+    <%= f.input :favourited,
+                collection: [["Any", ""], ["Yes", "true"], ["No", "false"]],
+                selected: params[:favourited],
+                label: "Favourited" %>
   </div>
 
-  <div class="mb-3">
-    <%= f.label :curation_id, "In curation", class: "form-label" %>
-    <%= f.select :curation_id, [["Any", ""]] + current_user.curations.pluck(:title, :id), { selected: params[:curation_id] }, class: "form-select" %>
+  <%= f.input :curation_id,
+              collection: current_user.curations,
+              label_method: :title,
+              value_method: :id,
+              include_blank: "Any",
+              selected: params[:curation_id],
+              label: "In curation" %>
+
+  <div>
+    <%= f.input :created_after,
+                as: :date,
+                label: "Created after",
+                input_html: { value: params[:created_after] } %>
   </div>
 
-  <div class="row mb-3">
-    <div class="col-6">
-      <%= f.label :created_after, "Created after", class: "form-label" %>
-      <%= f.date_field :created_after, value: params[:created_after], class: "form-control" %>
-    </div>
-
-    <div class="col-6">
-      <%= f.label :created_before, "Created before", class: "form-label" %>
-      <%= f.date_field :created_before, value: params[:created_before], class: "form-control" %>
-    </div>
+  <div>
+    <%= f.input :created_before,
+                as: :date,
+                label: "Created before",
+                input_html: { value: params[:created_before] } %>
   </div>
 
-  <div class="d-flex gap-2">
-    <%= f.submit "Search", class: "btn btn-primary" %>
+  <div class="col-12 d-flex gap-2">
+    <%= f.button :submit, "Search", class: "btn btn-primary" %>
     <%= link_to "Clear", search_articles_path, class: "btn btn-outline-secondary" %>
   </div>
 <% end %>
