@@ -47,7 +47,7 @@ class ArticlesController < ApplicationController
         curation_id: params[:article][:curation_id]
       )
     end
-      redirect_to conversation_path(@article.conversations.first)
+      redirect_to article_path(@article)
     else
       set_articles
       render "articles/index", status: :unprocessable_entity
