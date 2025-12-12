@@ -36,7 +36,14 @@
               method: :patch,
               class: "btn btn-link btn-sm p-0 text-decoration-none",
               form: { style: "display: inline;" } do %>
-            <i class="fa<%= article.favourited? ? '-solid' : '-regular' %> fa-heart <%= 'text-danger' if article.favourited? %>"></i>
+            <i class="fa<%= article.favourited? ? '-solid' : '-regular' %> fa-heart"></i>
+          <% end %>
+
+          <%= button_to archive_article_path(article),
+              method: :patch,
+              class: "btn btn-link btn-sm p-0 text-decoration-none",
+              form: { style: "display: inline;" } do %>
+            <i class="fa-<%= article.archived? ? "solid" : "regular" %> fa-circle-check"></i>
           <% end %>
 
           <%= button_to article_path(article),
