@@ -1,0 +1,73 @@
+<div class="card mb-3" data-controller="speech-reader">
+  <div class="card-body">
+    <div class="d-flex align-items-center justify-content-between mb-2">
+      <h6 class="card-title mb-0">
+        <i class="fa-solid fa-headphones me-1"></i> Listen
+      </h6>
+    </div>
+
+    <!-- Voice and speed controls -->
+    <div class="d-flex align-items-center gap-3 mb-3 flex-wrap">
+      <div class="d-flex align-items-center gap-2">
+        <small class="text-muted">Engine:</small>
+        <select class="form-select form-select-sm"
+                style="width: auto;"
+                data-speech-reader-target="engineSelect"
+                data-action="change->speech-reader#changeEngine">
+          <option value="browser">Browser</option>
+          <option value="google">Google</option>
+        </select>
+      </div>
+
+      <div class="d-flex align-items-center gap-2">
+        <small class="text-muted">Voice:</small>
+        <select class="form-select form-select-sm"
+                style="width: auto; max-width: 200px;"
+                data-speech-reader-target="voiceSelect"
+                data-action="change->speech-reader#changeVoice">
+        </select>
+      </div>
+
+      <div class="d-flex align-items-center gap-2">
+        <small class="text-muted">Speed:</small>
+        <input type="range"
+               class="form-range"
+               style="width: 80px;"
+               data-speech-reader-target="rate"
+               data-action="input->speech-reader#changeRate"
+               min="0.5" max="2.0" step="0.25" value="1.0">
+        <small class="text-muted" data-speech-reader-target="rateLabel" style="width: 40px;">1.0x</small>
+      </div>
+    </div>
+
+    <!-- Hidden text source -->
+    <div class="d-none" data-speech-reader-target="text"><%= strip_tags(article.body) %></div>
+
+    <!-- Progress bar -->
+    <div class="progress mb-3" style="height: 6px;">
+      <div class="progress-bar"
+           role="progressbar"
+           data-speech-reader-target="progressBar"
+           style="width: 0%; transition: width 0.05s linear;"></div>
+    </div>
+
+    <!-- Controls -->
+    <div class="d-flex justify-content-center gap-2">
+      <button type="button" class="btn btn-outline-secondary btn-sm" data-action="speech-reader#rewind" title="Previous sentence">
+        <i class="fa-solid fa-backward"></i>
+      </button>
+
+      <button type="button" class="btn btn-primary btn-sm px-3" data-action="speech-reader#playPause" title="Play/Pause">
+        <i class="fa-solid fa-play" data-speech-reader-target="playPauseIcon"></i>
+      </button>
+
+      <button type="button" class="btn btn-outline-secondary btn-sm" data-action="speech-reader#stop" title="Stop">
+        <i class="fa-solid fa-stop"></i>
+      </button>
+
+      <button type="button" class="btn btn-outline-secondary btn-sm" data-action="speech-reader#forward" title="Next sentence">
+        <i class="fa-solid fa-forward"></i>
+      </button>
+    </div>
+  </div>
+</div>

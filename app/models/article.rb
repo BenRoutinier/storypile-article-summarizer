@@ -180,7 +180,7 @@ class Article < ApplicationRecord
       .flat_map { |p| p.split(/\n+/) }
       .map(&:strip)
       .reject(&:empty?)
-      .select { |p| p.match?(/[.?!]['"“”‘’„”«»]*\s*$/) }
+      #.select { |p| p.match?(/[.?!]['"“”‘’„”«»]*\s*$/) }
 
     self.body = meaningful_paragraphs.join("\n\n")
   end

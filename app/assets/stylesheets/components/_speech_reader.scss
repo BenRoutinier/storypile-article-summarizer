@@ -1,0 +1,30 @@
+[data-controller="speech-reader"] {
+  .form-range {
+    cursor: pointer;
+
+    &::-webkit-slider-thumb {
+      cursor: pointer;
+    }
+  }
+
+  .progress {
+    background-color: $gray-200;
+    border-radius: 3px;
+  }
+
+  .progress-bar {
+    background-color: $primary;
+  }
+
+  .btn-sm {
+    width: 36px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    &.px-3 {
+      width: 48px;
+    }
+  }
+}

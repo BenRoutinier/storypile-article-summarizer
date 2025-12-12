@@ -7,6 +7,7 @@
     <div class="card">
       <div class="card-body bg-white">
         <h5 class="card-title">Full Article</h5>
+        <%= render "articles/speech_reader", article: @article %>
         <%= simple_format(@article.body) %>
       </div>
     </div>
