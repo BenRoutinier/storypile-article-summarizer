@@ -10,3 +10,5 @@ import ToggleFormController from "controllers/toggle_form_controller"
 application.register("toggle-form", ToggleFormController)
 import MobileDropdownController from "controllers/mobile_dropdown_controller"
 application.register("mobile-dropdown", MobileDropdownController)
+import SpeechReaderController from "controllers/speech_reader_controller"
+application.register("speech-reader", SpeechReaderController)
