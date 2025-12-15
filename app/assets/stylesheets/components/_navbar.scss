@@ -35,3 +35,7 @@
   border-radius: 0;
   background: $light-cappuccino;
 }
+
+body {
+  padding-top: 70px; /* so nothing disappears under the navbar */
+}
