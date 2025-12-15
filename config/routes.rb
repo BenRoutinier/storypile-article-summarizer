@@ -20,6 +20,8 @@ Rails.application.routes.draw do
     member do
       patch :archive
       patch :favourite
+      get :card
+      get :card_sm
       patch :update_summary_prompt
       patch :update_tags
       post :regenerate_summary
@@ -43,4 +45,8 @@ Rails.application.routes.draw do
   resources :curations, only: [:index, :show, :create, :destroy, :update]
 
   get 'tags/:tag', to: 'tags#show', as: :tag
+
+  namespace :api do
+    resources :articles, only: [:index, :show]
+  end
 end

@@ -3,15 +3,32 @@
   <div class="row d-flex">
 
     <div class="d-none d-md-block col-md-4" style ="position: sticky; top: 20px; z-index: 10; align-self: flex-start;" >
-      <div class="card mb-4"">
+      <div class="card mb-4" data-offline-hide>
         <div class="card-body bg-white">
-          <h5 class="card-title" >Add a New Article</h5>
+          <h5 class="card-title">Add a New Article</h5>
           <%= render "form", article: Article.new %>
+        </div>
+      </div>
+
+      <div class="card mb-4 d-none" data-offline-show>
+        <div class="card-body bg-light">
+          <h5 class="card-title text-muted">
+            <i class="fa-solid fa-cloud-slash me-1"></i> Add a New Article
+          </h5>
+          <p class="text-muted small mb-0">
+            Adding articles is unavailable while offline.
+          </p>
         </div>
       </div>
     </div>
 
     <div class="col-12 col-md-8">
+      <button type="button"
+              class="btn btn-sm btn-outline-secondary"
+              data-action="sync#forceSync"
+              title="Sync articles for offline">
+        <i class="fa-solid fa-sync"></i>
+      </button>
       <div class="row g-3">
         <%= render "shared/manyarticles", articles: @articles %>
       </div>

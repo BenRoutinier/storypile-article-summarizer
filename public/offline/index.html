@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Saved Articles - StoryPile (Offline)</title>
+  
+  <!-- Bootstrap CSS from CDN - will be cached by service worker -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Font Awesome from CDN -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  
+  <style>
+    .offline-banner {
+      background-color: #fff3cd;
+      border-bottom: 1px solid #ffc107;
+    }
+    
+    /* Match your app's card styling */
+    .card {
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+    }
+    
+    .object-fit-cover {
+      object-fit: cover;
+    }
+  </style>
+</head>
+<body>
+  <!-- Offline indicator banner -->
+  <div class="offline-banner py-2 px-3 text-center">
+    <small>
+      <i class="fa-solid fa-cloud-slash me-1"></i>
+      You're offline — viewing saved articles
+    </small>
+  </div>
+
+  <div class="container my-4">
+    <h1 class="text-center mb-4">Saved Articles</h1>
+    
+    <div class="row d-flex">
+      <!-- Hide the "Add Article" form when offline -->
+      <div class="d-none d-md-block col-md-4" style="position: sticky; top: 20px; z-index: 10; align-self: flex-start;">
+        <div class="card mb-4">
+          <div class="card-body bg-light">
+            <h5 class="card-title text-muted">
+              <i class="fa-solid fa-cloud-slash me-1"></i> Add a New Article
+            </h5>
+            <p class="text-muted small mb-0">
+              Adding articles is unavailable while offline.
+            </p>
+          </div>
+        </div>
+        
+        <!-- Offline status card -->
+        <div class="card">
+          <div class="card-body">
+            <h6 class="card-title">
+              <i class="fa-solid fa-info-circle me-1"></i> Offline Mode
+            </h6>
+            <p class="small text-muted mb-2">
+              You're viewing cached articles. Some features are disabled:
+            </p>
+            <ul class="small text-muted mb-0">
+              <li>Adding new articles</li>
+              <li>Deleting articles</li>
+              <li>Archive/Favourite toggles</li>
+              <li>AI features</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-8">
+        <div class="row g-3" id="articles-container">
+          <!-- Articles will be loaded here by render_index.js -->
+          <div class="col-12 text-center py-5">
+            <div class="spinner-border text-secondary mb-3" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="text-muted">Loading offline articles...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <!-- Offline rendering script -->
+  <script src="/offline/render_index.js"></script>
+</body>
+</html>
