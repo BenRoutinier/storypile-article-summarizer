@@ -12,25 +12,28 @@
       <%= image_tag "storypilelogo-edit.png", alt: "StoryPile Logo", class: "logo" %>
     <% end %>
 
-    <div class="flex-grow-1 text-center">
-      <div class="dropdown d-inline-block" data-controller="mobile-dropdown">
-        <a href="#"
-           class="nav-link dropdown-toggle text-dark fw-semibold text-center px-0"
-           id="mobileNavDropdown"
-           role="button"
-           data-bs-toggle="dropdown"
-           aria-expanded="false">
-          <span class="fw-semibold"><%= current_section_label %></span>
-        </a>
-        <ul class="dropdown-menu dropdown-menu-end text-center mobile-nav-dropdown" aria-labelledby="mobileNavDropdown">
-          <li><%= link_to "My Articles", root_path, class: "dropdown-item" %></li>
-          <li><%= link_to "My Summary Prompts", summary_prompts_path, class: "dropdown-item" %></li>
-          <li><%= link_to "My Curations", curations_path, class: "dropdown-item" %></li>
-          <li><%= link_to "Favourites", favourites_articles_path, class: "dropdown-item" %></li>
-          <li><%= link_to "Archived", archived_articles_path, class: "dropdown-item" %></li>
-        </ul>
+    <% if user_signed_in? %>
+      <div class="flex-grow-1 text-center">
+        <div class="dropdown d-inline-block" data-controller="mobile-dropdown">
+          <a href="#"
+            class="nav-link dropdown-toggle text-dark fw-semibold text-center px-0"
+            id="mobileNavDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false">
+            <span class="fw-semibold"><%= current_section_label %></span>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end text-center mobile-nav-dropdown" aria-labelledby="mobileNavDropdown">
+            <li><%= link_to "My Articles", root_path, class: "dropdown-item" %></li>
+            <li><%= link_to "My Summary Prompts", summary_prompts_path, class: "dropdown-item" %></li>
+            <li><%= link_to "My Curations", curations_path, class: "dropdown-item" %></li>
+            <li><%= link_to "Favourites", favourites_articles_path, class: "dropdown-item" %></li>
+            <li><%= link_to "Archived", archived_articles_path, class: "dropdown-item" %></li>
+          </ul>
+        </div>
       </div>
-    </div>
+    <% end %>
+
 
     <div class="dropdown" data-controller="mobile-dropdown">
       <% if user_signed_in? %>
