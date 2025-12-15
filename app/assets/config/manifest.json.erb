@@ -7,20 +7,15 @@
   "scope": "/",
   "theme_color": "#dcc7a1",
   "icons": [
-    <% files = Dir.entries(Rails.root.join("app/assets/images/icons/")).select { |f| f.match?(/.+-\d{2,4}x\d{2,4}\.png/) } %>
-    <% files.each do |file| %>
+    <% files = Dir.entries(Rails.root.join("app/assets/images/icons/")).select { |f| f.match?(/android-icon-\d{2,4}x\d{2,4}\.png/) } %>
+    <% files.each_with_index do |file, index| %>
       <% match = file.match(/.+-(?<size>\d{2,4}x\d{2,4}).png/) %>
     {
       "src": "<%= image_path "icons/#{file}" %>",
       "sizes": "<%= match[:size] %>",
-      "type": "image/png"
-    },
-    {
-      "src": "<%= image_path "icons/#{file}" %>",
-      "sizes": "<%= match[:size] %>",
       "type": "image/png",
-      "purpose": "maskable"
-    }<%= "," unless file == files.last %>
+      "purpose": "any maskable"
+    }<%= "," unless (files.size - 1) == index %>
     <% end %>
   ],
   "screenshots": [
