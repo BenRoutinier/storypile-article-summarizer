@@ -1,6 +1,6 @@
 <div class="container my-4">
-  <%= link_to "← Back to Articles", articles_path, class: "btn btn-secondary mb-3" %>
-  <%= link_to "See ChatBot conversation", conversation_path(@article.conversations.first), class: "btn btn-primary mb-3" %>
+  <%= link_to "← Back", articles_path, class: "btn btn-secondary mb-3" %>
+  <%= link_to "ChatBot", conversation_path(@article.conversations.first), class: "btn btn-primary mb-3" %>
 
   <%= render layout: "articles/article_head", locals: { article: @article } do %>
 

@@ -27,9 +27,25 @@
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    font-weight: 900;
   }
 
   .card-footer {
     flex-shrink: 0;
+  }
+}
+
+.curation-pill {
+  background: $bright-yellow;
+  border-radius: 20px !important;
+  padding: 0.5rem 1rem !important;
+
+  &:hover {
+    background-color: darken($bright-yellow, 15%) !important;
+    }
+
+  a {
+    color: $black !important;
+    text-decoration: none;
   }
 }

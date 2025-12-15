@@ -9,6 +9,20 @@
   z-index: 1000;
 }
 
+.navbar-lewagon.d-md-none .mobile-center-nav {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  text-align: center;
+  pointer-events: none;
+}
+
+.navbar-lewagon.d-md-none .mobile-center-nav .dropdown {
+  pointer-events: auto;
+}
+
 .navbar-lewagon .navbar-collapse {
   flex-grow: 0;
 }
@@ -16,6 +30,7 @@
 .navbar-lewagon .navbar-brand img {
   width: 56px;
   height: auto;
+  margin-top: 0.75rem;
 }
 
 .navbar-lewagon h2 a {
@@ -34,6 +49,7 @@
   border: none;
   border-radius: 0;
   background: $light-cappuccino;
+  padding-right: 0.75rem;
 }
 
 body {

@@ -1,8 +1,8 @@
 <nav class="navbar navbar-light navbar-lewagon d-md-none">
-  <div class="container-fluid">
+  <div class="container-fluid position-relative">
     <%= render "shared/navbar/logo" %>
 
-    <div class="flex-grow-1 text-center">
+    <div class="mobile-center-nav text-center">
       <div class="dropdown d-inline-block" data-controller="mobile-dropdown">
         <a href="#"
           class="nav-link dropdown-toggle text-dark fw-semibold text-center px-0"
@@ -18,7 +18,7 @@
       </div>
     </div>
 
-    <div class="dropdown" data-controller="mobile-dropdown">
+    <div class="dropdown me-3" data-controller="mobile-dropdown">
       <a href="#"
          class="nav-link dropdown-toggle-no-caret text-dark"
          id="mobileAccountDropdown"
