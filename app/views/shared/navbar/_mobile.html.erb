@@ -1,0 +1,36 @@
+<nav class="navbar navbar-light navbar-lewagon d-md-none">
+  <div class="container-fluid">
+    <%= render "shared/navbar/logo" %>
+
+    <div class="flex-grow-1 text-center">
+      <div class="dropdown d-inline-block" data-controller="mobile-dropdown">
+        <a href="#"
+          class="nav-link dropdown-toggle text-dark fw-semibold text-center px-0"
+          id="mobileNavDropdown"
+          role="button"
+          data-bs-toggle="dropdown"
+          aria-expanded="false">
+          <span class="fw-semibold"><%= current_section_label %></span>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end text-center mobile-nav-dropdown" aria-labelledby="mobileNavDropdown">
+          <%= render "shared/navbar/nav_links" %>
+        </ul>
+      </div>
+    </div>
+
+    <div class="dropdown" data-controller="mobile-dropdown">
+      <a href="#"
+         class="nav-link dropdown-toggle-no-caret text-dark"
+         id="mobileAccountDropdown"
+         role="button"
+         data-bs-toggle="dropdown"
+         aria-expanded="false">
+        <i class="fa-solid fa-bars fa-lg"></i>
+      </a>
+      <ul class="dropdown-menu dropdown-menu-end text-end mobile-nav-dropdown" aria-labelledby="mobileAccountDropdown">
+        <%= render "shared/navbar/account_links" %>
+        <%= render "shared/navbar/install_button", id: "install-menu-item", button_id: "install-button-mobile", align: "text-end" %>
+      </ul>
+    </div>
+  </div>
+</nav>

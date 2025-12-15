@@ -17,18 +17,38 @@ if ('serviceWorker' in navigator) {
   });
 }
 
+// PWA install prompt
 let deferredPrompt;
 
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
   deferredPrompt = e;
-  console.log('Install prompt available!');
 
-  // For testing — trigger immediately (remove this in production)
-  deferredPrompt.prompt();
-});
+  // Show install menu items
+  const menuItems = ['install-menu-item', 'install-menu-item-desktop'];
+  menuItems.forEach(id => {
+    const item = document.getElementById(id);
+    if (item) item.style.display = 'block';
+  });
 
-window.addEventListener('appinstalled', () => {
-  console.log('PWA was installed');
-  deferredPrompt = null;
+  // Add click handlers
+  const buttons = ['install-button-mobile', 'install-button-desktop'];
+  buttons.forEach(id => {
+    const button = document.getElementById(id);
+    if (button) {
+      button.addEventListener('click', () => {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            console.log('User accepted install');
+          }
+          deferredPrompt = null;
+          menuItems.forEach(id => {
+            const item = document.getElementById(id);
+            if (item) item.style.display = 'none';
+          });
+        });
+      });
+    }
+  });
 });
