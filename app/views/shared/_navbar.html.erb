@@ -65,6 +65,11 @@
           <li><%= link_to "My Account", edit_user_registration_path, class: "dropdown-item" %></li>
           <li><%= link_to "Log out", destroy_user_session_path,
                           data: { turbo_method: :delete }, class: "dropdown-item" %></li>
+          <li id="install-menu-item" style="display: none;">
+            <button id="install-button-mobile" class="dropdown-item text-end">
+              <i class="fa-solid fa-download me-2"></i>Install App
+            </button>
+          </li>
         </ul>
       <% else %>
         <%= link_to "Login", new_user_session_path, class: "nav-link" %>
@@ -104,6 +109,11 @@
             <li><%= link_to "My Account", edit_user_registration_path, class: "dropdown-item" %></li>
             <li><%= link_to "Log out", destroy_user_session_path,
                             data: { turbo_method: :delete }, class: "dropdown-item" %></li>
+            <li id="install-menu-item-desktop" style="display: none;">
+              <button id="install-button-desktop" class="dropdown-item">
+                <i class="fa-solid fa-download me-2"></i>Install App
+              </button>
+            </li>
           </ul>
         </li>
       </ul>
