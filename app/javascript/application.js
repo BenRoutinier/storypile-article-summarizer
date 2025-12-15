@@ -4,6 +4,7 @@ import "controllers"
 import "@popperjs/core"
 import "bootstrap"
 
+
 // Register service worker for PWA
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function() {
@@ -20,22 +21,21 @@ if ('serviceWorker' in navigator) {
 // PWA install prompt
 let deferredPrompt;
 
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
+function showInstallButtons() {
+  if (!deferredPrompt) return;
 
-  // Show install menu items
   const menuItems = ['install-menu-item', 'install-menu-item-desktop'];
+  const buttons = ['install-button-mobile', 'install-button-desktop'];
+
   menuItems.forEach(id => {
     const item = document.getElementById(id);
     if (item) item.style.display = 'block';
   });
 
-  // Add click handlers
-  const buttons = ['install-button-mobile', 'install-button-desktop'];
   buttons.forEach(id => {
     const button = document.getElementById(id);
-    if (button) {
+    if (button && !button.dataset.listenerAttached) {
+      button.dataset.listenerAttached = 'true';
       button.addEventListener('click', () => {
         deferredPrompt.prompt();
         deferredPrompt.userChoice.then((choiceResult) => {
@@ -51,4 +51,20 @@ window.addEventListener('beforeinstallprompt', (e) => {
       });
     }
   });
+}
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  showInstallButtons();
+});
+
+// Re-show buttons after Turbo navigation
+document.addEventListener('turbo:load', () => {
+  showInstallButtons();
+});
+
+window.addEventListener('appinstalled', () => {
+  console.log('PWA was installed');
+  deferredPrompt = null;
 });

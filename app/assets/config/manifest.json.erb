@@ -1,20 +1,26 @@
 {
-  "background_color": "white",
+  "background_color": "#dcc7a1",
   "description": "Save the stories that matter. Read them later",
   "display": "standalone",
   "name": "StoryPile",
   "start_url": "/",
   "scope": "/",
-  "theme_color": "#ffffff",
+  "theme_color": "#dcc7a1",
   "icons": [
-    <% files = Dir.entries(Rails.root.join("app/assets/images/icons/")).select {|f| !File.directory? f} %>
-    <% files.each_with_index do |file, index| %>
-      <% match = file.match(/.+-(?<size>\d{2,3}x\d{2,3}).png/) %>
-      {
-        "src": "<%= image_path "icons/#{file}" %>",
-        "sizes": "<%= match && match[:size] %>",
-        "type": "image/png"
-      }<%= "," unless (files.size - 1) == index %>
+    <% files = Dir.entries(Rails.root.join("app/assets/images/icons/")).select { |f| f.match?(/.+-\d{2,4}x\d{2,4}\.png/) } %>
+    <% files.each do |file| %>
+      <% match = file.match(/.+-(?<size>\d{2,4}x\d{2,4}).png/) %>
+    {
+      "src": "<%= image_path "icons/#{file}" %>",
+      "sizes": "<%= match[:size] %>",
+      "type": "image/png"
+    },
+    {
+      "src": "<%= image_path "icons/#{file}" %>",
+      "sizes": "<%= match[:size] %>",
+      "type": "image/png",
+      "purpose": "maskable"
+    }<%= "," unless file == files.last %>
     <% end %>
   ],
   "screenshots": [
