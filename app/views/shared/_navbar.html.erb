@@ -5,21 +5,7 @@
         rel="stylesheet">
 </head>
 
-<% if controller_name == "pages" && action_name == "home" && !user_signed_in? %>
-
-<nav class="navbar navbar-light navbar-lewagon">
-  <div class="container-fluid">
-
-    <%= link_to root_path, class: "navbar-brand" do %>
-      <%= image_tag "storypilelogo-edit.png", alt: "StoryPile Logo", class: "logo" %>
-    <% end %>
-
-    <%= link_to "Login", new_user_session_path, class: "btn btn-outline-dark ms-auto" %>
-
-  </div>
-</nav>
-
-<% elsif ["sessions", "registrations"].include?(controller_name) && action_name == "new" && !user_signed_in? %>
+<% if !user_signed_in? %>
 
 <nav class="navbar navbar-light navbar-lewagon">
   <div class="container-fluid">
