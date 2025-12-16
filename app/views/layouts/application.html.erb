@@ -1,12 +1,20 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>StorypileArticleSummarizer</title>
+    <title><%= DEFAULT_META["meta_title"] %></title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+
+    <!-- Open Graph meta tags -->
+    <meta property="og:title" content="<%= DEFAULT_META["meta_title"] %>">
+    <meta property="og:description" content="<%= DEFAULT_META["meta_description"] %>">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="<%= root_url %>">
+    <meta property="og:image" content="<%= image_url(DEFAULT_META["meta_image"]) %>">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
+    <%= favicon_link_tag asset_path('storypilelogo-sq.png') %>
     <link rel="manifest" href="<%= asset_path 'manifest.json' %>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
