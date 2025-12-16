@@ -1,4 +1,4 @@
-  <h1 class="mb-2"><%= article.headline %></h1>
+  <h1 class="mb-2 fw-bold"><%= article.headline %></h1>
 
   <% if article.subheadline.present? %>
     <p class="lead text-muted mb-3"><%= article.subheadline %></p>
@@ -19,9 +19,9 @@
 
     <% if article.curations.any? %>
       <% article.curations.each do |curation| %>
-        <span class="badge bg-secondary text-dark border">
-      <%=link_to curation.title, curation_path(curation), class: "text-decoration-none text-dark"%>
-      </span>
+        <span class="curation-pill p-2">
+          <%= link_to curation.title, curation_path(curation) %>
+        </span>
       <% end %>
     <% end %>
 
