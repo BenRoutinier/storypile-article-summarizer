@@ -32,26 +32,31 @@
             <i class="fa-solid fa-circle-minus"></i>
           <% end %>
         <% else %>
-          <%= button_to favourite_article_path(article),
-              method: :patch,
-              class: "btn btn-link btn-sm p-0 text-decoration-none",
-              form: { style: "display: inline;" } do %>
-            <i class="fa<%= article.favourited? ? '-solid' : '-regular' %> fa-heart"></i>
-          <% end %>
+          <span data-offline-hide>
+            <%= button_to favourite_article_path(article),
+                method: :patch,
+                class: "btn btn-link btn-sm p-0 text-decoration-none",
+                form: { style: "display: inline;" } do %>
+              <i class="fa<%= article.favourited? ? '-solid' : '-regular' %> fa-heart"></i>
+            <% end %>
 
-          <%= button_to archive_article_path(article),
-              method: :patch,
-              class: "btn btn-link btn-sm p-0 text-decoration-none",
-              form: { style: "display: inline;" } do %>
-            <i class="fa-<%= article.archived? ? "solid" : "regular" %> fa-circle-check"></i>
-          <% end %>
+            <%= button_to archive_article_path(article),
+                method: :patch,
+                class: "btn btn-link btn-sm p-0 text-decoration-none",
+                form: { style: "display: inline;" } do %>
+              <i class="fa-<%= article.archived? ? "solid" : "regular" %> fa-circle-check"></i>
+            <% end %>
 
-          <%= button_to article_path(article),
-              method: :delete,
-              class: "btn btn-link btn-sm p-0 text-decoration-none text-muted",
-              form: { data: { turbo_confirm: 'Are you sure?' }, style: "display: inline;" } do %>
-            <i class="fa-solid fa-trash"></i>
-          <% end %>
+            <%= button_to article_path(article),
+                method: :delete,
+                class: "btn btn-link btn-sm p-0 text-decoration-none text-muted",
+                form: { data: { turbo_confirm: 'Are you sure?' }, style: "display: inline;" } do %>
+              <i class="fa-solid fa-trash"></i>
+            <% end %>
+          </span>
+          <span class="d-none text-muted small" data-offline-show>
+            <i class="fa-solid fa-cloud-slash me-1"></i> Offline
+          </span>
         <% end %>
       </div>
     </div>

@@ -18,7 +18,8 @@
     <%= render 'shared/ios_pwa_links' %>
   </head>
 
-  <body>
+<body data-controller="sync offline-indicator">
+    <%= render "shared/offline_banner" %>
     <%= yield %>
 
     <%= render "shared/flashes" %>

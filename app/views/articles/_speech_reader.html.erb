@@ -8,15 +8,19 @@
 
     <!-- Voice and speed controls -->
     <div class="d-flex align-items-center gap-3 mb-3 flex-wrap">
-      <div class="d-flex align-items-center gap-2">
-        <small class="text-muted">Engine:</small>
-        <select class="form-select form-select-sm"
-                style="width: auto;"
-                data-speech-reader-target="engineSelect"
-                data-action="change->speech-reader#changeEngine">
-          <option value="browser">Browser</option>
-          <option value="google">Google</option>
-        </select>
+      <div data-offline-hide>
+        <div class="d-flex align-items-center gap-2">
+          <small class="text-muted">Engine:</small>
+          <select class="form-select form-select-sm" ...>
+            <option value="browser">Browser</option>
+            <option value="google">Google</option>
+          </select>
+        </div>
+      </div>
+      <div class="d-none" data-offline-show>
+        <small class="text-muted">
+          <i class="fa-solid fa-cloud-slash me-1"></i> Browser TTS only (offline)
+        </small>
       </div>
 
       <div class="d-flex align-items-center gap-2">

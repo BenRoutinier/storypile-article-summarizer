@@ -1,7 +1,7 @@
 require 'open-uri'
 
 class ArticlesController < ApplicationController
-  before_action :set_article, only: [:show, :destroy, :regenerate_summary, :archive, :favourite, :regenerate_summary, :update_summary_prompt, :update_tags]
+  before_action :set_article, only: [:card, :card_sm, :show, :destroy, :regenerate_summary, :archive, :favourite, :regenerate_summary, :update_summary_prompt, :update_tags]
 
   def index
     set_articles
@@ -13,6 +13,16 @@ class ArticlesController < ApplicationController
 
   def favourites
     @articles = current_user.articles.where(favourited: true).order(created_at: :desc)
+  end
+
+  def card
+    #set_article
+    # Renders just the article card partial for offline caching
+    render partial: "articles/articlecard", locals: { article: @article }, layout: false
+  end
+
+  def card_sm
+    render partial: "articles/articlecard_sm", locals: { article: @article }, layout: false
   end
 
   def show

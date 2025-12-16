@@ -1,0 +1,15 @@
+<%# 
+  Offline Banner Partial
+  Shows a warning banner when the user is offline
+  
+  Usage: Add this to your application layout, inside the element with data-controller="offline-indicator"
+%>
+
+<div class="offline-banner d-none" data-offline-indicator-target="banner">
+  <div class="py-2 px-3 text-center" style="background-color: #fff3cd; border-bottom: 1px solid #ffc107;">
+    <small>
+      <i class="fa-solid fa-cloud-slash me-1"></i>
+      <strong>You're offline</strong> — viewing saved content. Some features are unavailable.
+    </small>
+  </div>
+</div>
