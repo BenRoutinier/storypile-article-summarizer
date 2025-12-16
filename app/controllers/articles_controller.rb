@@ -51,12 +51,14 @@ class ArticlesController < ApplicationController
     @article = current_user.articles.build(article_params)
 
     if @article.save
-      if params[:article][:curation_id].present?
-      Bookmark.create(
-        article: @article,
-        curation_id: params[:article][:curation_id]
-      )
-    end
+      if params[:article][:curation_ids].present?
+        params[:article][:curation_ids].each do |curation_id|
+          Bookmark.create(
+            article: @article,
+            curation_id: curation_id
+          )
+        end
+      end
       redirect_to article_path(@article)
     else
       set_articles

@@ -16,7 +16,6 @@ export default class extends Controller {
         const navbarRect = navbar.getBoundingClientRect()
         const navbarBottom = navbarRect.bottom
 
-        // Position dropdown below navbar, full width
         dropdown.style.position = 'fixed'
         dropdown.style.top = `${navbarBottom}px`
         dropdown.style.left = '0'
