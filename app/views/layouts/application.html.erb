@@ -14,11 +14,11 @@
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
-    <%= render "shared/navbar" %>
     <%= render 'shared/ios_pwa_links' %>
   </head>
 
 <body data-controller="sync offline-indicator">
+    <%= render "shared/navbar" %>
     <%= render "shared/offline_banner" %>
     <%= yield %>
 
