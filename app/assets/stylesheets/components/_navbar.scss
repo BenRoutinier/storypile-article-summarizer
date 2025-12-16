@@ -7,6 +7,7 @@
   right: 0;
   padding-top: env(safe-area-inset-top);
   z-index: 1000;
+  border-bottom: none;
 }
 
 .navbar-lewagon.d-md-none .mobile-center-nav {
@@ -49,7 +50,10 @@
   border: none;
   border-radius: 0;
   background: $light-cappuccino;
-  padding-right: 0.75rem;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  margin-top: 0 !important; // remove Bootstrap's default gap above dropdown
+  margin-bottom: 0 !important;
 }
 
 body {
