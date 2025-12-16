@@ -9,16 +9,25 @@
   z-index: 1000;
 }
 
-.navbar-lewagon.d-md-none .mobile-center-nav .dropdown-menu {
-  position: fixed;
-  top: calc(56px + env(safe-area-inset-top)); // adjust 56px to your navbar height
+.navbar-lewagon.d-md-none .mobile-center-nav {
+  position: absolute;
+  top: 0;
   left: 0;
   right: 0;
-  transform: none;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
 }
 
 .navbar-lewagon.d-md-none .mobile-center-nav .dropdown {
   pointer-events: auto;
+}
+
+// Remove gap on all mobile dropdowns
+.navbar-lewagon.d-md-none .dropdown-menu {
+  margin-top: 0;
 }
 
 .navbar-lewagon .navbar-collapse {
