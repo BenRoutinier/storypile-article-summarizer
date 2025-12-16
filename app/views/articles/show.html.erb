@@ -7,12 +7,33 @@
 
   <%= render layout: "articles/article_head", locals: { article: @article } do %>
 
-    <div class="card">
-      <div class="card-body bg-white">
-        <h5 class="card-title">Full Article</h5>
+    <!-- Speech Reader Toggle Wrapper -->
+    <div data-controller="toggle-form">
+
+      <div data-toggle-form-target="form" class="d-none">
         <%= render "articles/speech_reader", article: @article %>
-        <%= simple_format(@article.body) %>
       </div>
+
+      <div class="card">
+        <div class="card-body bg-white">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <h5 class="card-title mb-0">Full Article</h5>
+            <button type="button"
+                    class="btn btn-primary shadow-lg rounded-circle"
+                    id="speech-reader-toggle"
+                    data-toggle-form-target="display"
+                    data-action="toggle-form#toggle"
+                    title="Listen to article"
+                    style="width: 56px; height: 56px;">
+              <i class="fa-solid fa-headphones fa-lg"></i>
+            </button>
+
+
+          </div>
+          <%= simple_format(@article.body) %>
+        </div>
+      </div>
+
     </div>
 
   <% end %>
