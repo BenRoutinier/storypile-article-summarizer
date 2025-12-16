@@ -9,14 +9,12 @@
   z-index: 1000;
 }
 
-.navbar-lewagon.d-md-none .mobile-center-nav {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100%;
-  text-align: center;
-  pointer-events: none;
+.navbar-lewagon.d-md-none .mobile-center-nav .dropdown-menu {
+  position: fixed;
+  top: calc(56px + env(safe-area-inset-top)); // adjust 56px to your navbar height
+  left: 0;
+  right: 0;
+  transform: none;
 }
 
 .navbar-lewagon.d-md-none .mobile-center-nav .dropdown {
