@@ -1,7 +1,14 @@
 <%= turbo_frame_tag "article_summary" do %>
   <div class="card mb-4">
     <div class="card-body bg-white">
-      <h5 class="card-title">AI Summary</h5>
+      <div class="d-flex justify-content-between align-items-center mb-2">
+        <h5 class="card-title mb-0">AI Summary</h5>
+        <% if controller_name == "articles" %>
+          <%= render 'shared/buttons/button_conversation', conversation: article.conversations.first %>
+        <% else %>
+          <%= render 'shared/buttons/button_article', article: article %>
+        <% end %>
+      </div>
       <p class="card-text"><%= simple_format(article.summary) %></p>
 
       <hr>

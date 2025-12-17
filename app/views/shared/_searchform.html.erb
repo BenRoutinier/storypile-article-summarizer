@@ -1,9 +1,9 @@
-<%= form_with url: search_articles_path, method: :get, class: "row g-3" do |f| %>
+<%= form_with url: search_articles_path, method: :get, scope: :search, class: "row g-3" do |f| %>
 
   <div class="col-12">
     <%= f.text_field :query,
                      placeholder: "Search headlines, body, tags...",
-                     value: params[:query],
+                     value: params.dig(:search, :query),
                      class: "form-control" %>
   </div>
 
@@ -11,7 +11,7 @@
     <div class="col-6">
       <%= f.label :archived %>
       <%= f.select :archived,
-                   options_for_select([["Any", ""], ["Yes", "true"], ["No", "false"]], params[:archived]),
+                   options_for_select([["Any", ""], ["Yes", "true"], ["No", "false"]], params.dig(:search, :archived)),
                    {},
                    class: "form-select" %>
     </div>
@@ -19,7 +19,7 @@
     <div class="col-6">
       <%= f.label :favourited %>
       <%= f.select :favourited,
-                   options_for_select([["Any", ""], ["Yes", "true"], ["No", "false"]], params[:favourited]),
+                   options_for_select([["Any", ""], ["Yes", "true"], ["No", "false"]], params.dig(:search, :favourited)),
                    {},
                    class: "form-select" %>
     </div>
@@ -30,18 +30,18 @@
                               current_user.curations,
                               :id,
                               :title,
-                              { include_blank: "Any", selected: params[:curation_id] },
+                              { include_blank: "Any", selected: params.dig(:search, :curation_id) },
                               { class: "form-select" } %>
     </div>
 
     <div class="col-6">
       <%= f.label :created_after, "Created after" %>
-      <%= f.date_field :created_after, value: params[:created_after], class: "form-control" %>
+      <%= f.date_field :created_after, value: params.dig(:search, :created_after), class: "form-control" %>
     </div>
 
     <div class="col-6">
       <%= f.label :created_before, "Created before" %>
-      <%= f.date_field :created_before, value: params[:created_before], class: "form-control" %>
+      <%= f.date_field :created_before, value: params.dig(:search, :created_before), class: "form-control" %>
     </div>
   </div>
 
