@@ -1,0 +1,6 @@
+<%# Usage: render 'shared/buttons/button_conversation', article: article %>
+<%= link_to conversation_path(conversation), class: "btn p-0 border-0 bg-transparent", title: "Chat with AI", data: { turbo_frame: "_top" } do %>
+  <span class="d-inline-flex align-items-center justify-content-center rounded-circle bg-success text-white" style="width: 32px; height: 32px;">
+    <i class="fa-solid fa-comments"></i>
+  </span>
+<% end %>
