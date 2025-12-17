@@ -1,9 +1,11 @@
+<span data-offline-hide>
 <%# Usage: render 'shared/buttons/button_delete', path: article_path(article), confirm: 'Are you sure?' %>
-<%= button_to path,
-    method: :delete,
-    class: "btn p-0 border-0 bg-transparent",
-    form: { data: { turbo_confirm: local_assigns.fetch(:confirm, 'Are you sure?') }, style: "display: inline;" } do %>
-  <span class="d-inline-flex align-items-center justify-content-center rounded-circle bg-success text-white" style="width: 32px; height: 32px;">
-    <i class="fa-solid fa-trash"></i>
-  </span>
-<% end %>
+  <%= button_to path,
+      method: :delete,
+      class: "btn p-0 border-0 bg-transparent",
+      form: { data: { turbo_confirm: local_assigns.fetch(:confirm, 'Are you sure?') }, style: "display: inline;" } do %>
+    <span class="d-inline-flex align-items-center justify-content-center rounded-circle bg-success text-white" style="width: 32px; height: 32px;">
+      <i class="fa-solid fa-trash"></i>
+    </span>
+  <% end %>
+</span>
