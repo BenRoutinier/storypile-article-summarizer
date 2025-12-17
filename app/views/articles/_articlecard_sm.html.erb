@@ -12,7 +12,7 @@
     </div>
 
     <div class="col-auto d-flex flex-column align-items-end p-2 flex-shrink-0">
-      <div style="width: 120px; aspect-ratio: 2/1; overflow: hidden;">
+      <div class="position-relative" style="width: 120px; aspect-ratio: 2/1; overflow: hidden;">
         <% if article.image_link.present? %>
           <%= image_tag article.image_link, class: "w-100 h-100 object-fit-cover rounded" %>
         <% else %>
@@ -20,39 +20,22 @@
             <i class="fa-solid fa-newspaper text-muted"></i>
           </div>
         <% end %>
+
+        <% unless curation %>
+          <span data-offline-hide class="position-absolute top-0 end-0" style="margin: 4px;">
+            <%= render 'shared/buttons/button_favourite', article: article %>
+          </span>
+        <% end %>
       </div>
 
-      <div class="d-flex gap-1 pt-1">
+      <div class="d-flex gap-2 pt-2 mt-1">
         <% if curation %>
           <% bookmark = Bookmark.find_by(article_id: article.id, curation_id: curation.id) %>
-          <%= button_to bookmark_path(bookmark),
-              method: :delete,
-              class: "btn btn-link btn-sm p-0 text-decoration-none text-danger",
-              form: { data: { turbo_confirm: 'Remove from curation?' }, style: "display: inline;" } do %>
-            <i class="fa-solid fa-circle-minus"></i>
-          <% end %>
+          <%= render 'shared/buttons/button_remove_from_curation', bookmark: bookmark %>
         <% else %>
-          <span data-offline-hide>
-            <%= button_to favourite_article_path(article),
-                method: :patch,
-                class: "btn btn-link btn-sm p-0 text-decoration-none",
-                form: { style: "display: inline;" } do %>
-              <i class="fa<%= article.favourited? ? '-solid' : '-regular' %> fa-heart"></i>
-            <% end %>
-
-            <%= button_to archive_article_path(article),
-                method: :patch,
-                class: "btn btn-link btn-sm p-0 text-decoration-none",
-                form: { style: "display: inline;" } do %>
-              <i class="fa-<%= article.archived? ? "solid" : "regular" %> fa-circle-check"></i>
-            <% end %>
-
-            <%= button_to article_path(article),
-                method: :delete,
-                class: "btn btn-link btn-sm p-0 text-decoration-none text-muted",
-                form: { data: { turbo_confirm: 'Are you sure?' }, style: "display: inline;" } do %>
-              <i class="fa-solid fa-trash"></i>
-            <% end %>
+          <span data-offline-hide class="d-flex gap-2">
+            <%= render 'shared/buttons/button_archive', article: article %>
+            <%= render 'shared/buttons/button_delete', article: article %>
           </span>
           <span class="d-none text-muted small" data-offline-show>
             <i class="fa-solid fa-cloud-slash me-1"></i> Offline
