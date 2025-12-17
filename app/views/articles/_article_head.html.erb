@@ -25,17 +25,6 @@
       <% end %>
     <% end %>
 
-    <div class="dropdown" data-offline-hide>
-      <button class = "btn btn-outline-secondary dropdown-toggle"
-      type="button"
-      data-bs-toggle="dropdown"
-      aria-expanded="false">
-      Add to Curation
-      </button>
-      <ul class="dropdown-menu p-3" overflow-y: auto;>
-        <%= render "articles/curation_dropdown", article: article%>
-      </ul>
-    </div>
   </div>
 
   <% if article.image_link.present? %>

@@ -1,7 +1,16 @@
 <div class="container my-4">
   <div class="d-flex justify-content-between align-items-center mt-4 mb-3" data-offline-hide>
-    <div>
+    <div class="d-flex gap-2">
       <%= render 'shared/buttons/button_favourite', article: @article %>
+      <button type="button"
+              class="btn p-0 border-0 bg-transparent"
+              data-bs-toggle="modal"
+              data-bs-target="#editArticleModal"
+              title="Edit">
+        <span class="d-inline-flex align-items-center justify-content-center rounded-circle bg-success text-white" style="width: 32px; height: 32px;">
+          <i class="fa-solid fa-pen"></i>
+        </span>
+      </button>
     </div>
     <div class="d-flex gap-2">
       <%= render 'shared/buttons/button_archive', article: @article %>
@@ -9,6 +18,7 @@
     </div>
   </div>
 
+  <!-- Article Display -->
   <%= render layout: "articles/article_head", locals: { article: @article } do %>
 
     <!-- Speech Reader Toggle Wrapper -->
@@ -32,4 +42,19 @@
 
   <% end %>
 
+</div>
+
+<!-- Edit Article Modal -->
+<div class="modal fade" id="editArticleModal" tabindex="-1" aria-labelledby="editArticleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editArticleModalLabel">Edit Article</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <%= render "articles/edit_form", article: @article %>
+      </div>
+    </div>
+  </div>
 </div>
