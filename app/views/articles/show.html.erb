@@ -1,9 +1,13 @@
 <div class="container my-4">
-
-  <%= link_to "← Back", articles_path, class: "btn btn-secondary mb-3" %>
-  <span data-offline-hide>
-    <%= link_to "ChatBot", conversation_path(@article.conversations.first), class: "btn btn-primary mb-3" %>
-  </span>
+  <div class="d-flex justify-content-between align-items-center mt-4 mb-3" data-offline-hide>
+    <div>
+      <%= render 'shared/buttons/button_favourite', article: @article %>
+    </div>
+    <div class="d-flex gap-2">
+      <%= render 'shared/buttons/button_archive', article: @article %>
+      <%= render partial: 'shared/buttons/button_delete', locals: { path: article_path(@article), confirm: 'Delete this article?' } %>
+    </div>
+  </div>
 
   <%= render layout: "articles/article_head", locals: { article: @article } do %>
 
@@ -18,17 +22,7 @@
         <div class="card-body bg-white">
           <div class="d-flex justify-content-between align-items-center mb-2">
             <h5 class="card-title mb-0">Full Article</h5>
-            <button type="button"
-                    class="btn btn-primary shadow-lg rounded-circle"
-                    id="speech-reader-toggle"
-                    data-toggle-form-target="display"
-                    data-action="toggle-form#toggle"
-                    title="Listen to article"
-                    style="width: 56px; height: 56px;">
-              <i class="fa-solid fa-headphones fa-lg"></i>
-            </button>
-
-
+            <%= render 'shared/buttons/button_audio' %>
           </div>
           <%= simple_format(@article.body) %>
         </div>

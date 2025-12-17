@@ -1,7 +1,12 @@
 <div class="container my-4">
-  <div class="mt-4">
-    <%= link_to "← Back to Articles", articles_path, class: "btn btn-secondary mb-3" %>
-    <%= link_to "See full article", article_path(@conversation.article), class: "btn btn-primary mb-3" %>
+  <div class="d-flex justify-content-between align-items-center mt-4 mb-3" data-offline-hide>
+    <div>
+      <%= render 'shared/buttons/button_favourite', article: @conversation.article %>
+    </div>
+    <div class="d-flex gap-2">
+      <%= render 'shared/buttons/button_archive', article: @conversation.article %>
+      <%= render partial: 'shared/buttons/button_delete', locals: { path: article_path(@conversation.article), confirm: 'Delete this article?' } %>
+    </div>
   </div>
 
   <%= render layout: "articles/article_head", locals: { article: @conversation.article } do %>

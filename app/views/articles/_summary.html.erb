@@ -30,8 +30,8 @@
         </div>
 
         <%= form_with url: regenerate_summary_article_path(article), method: :post, class: "d-flex flex-grow-1 gap-2", style: "min-width: 0;" do |f| %>
-          <%= f.text_field :extra_instructions, class: "form-control form-control-sm w-100", placeholder: "Additional one-time instructions (optional)" %>
-          <%= f.submit "Regenerate", class: "btn btn-primary btn-sm flex-shrink-0" %>
+          <%= f.text_field :extra_instructions, class: "form-control form-control-sm w-100", placeholder: "Add one-time instructions" %>
+          <%= render 'shared/buttons/button_regenerate' %>
         <% end %>
       </div>
     </div>

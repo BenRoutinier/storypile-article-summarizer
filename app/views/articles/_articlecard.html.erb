@@ -10,15 +10,8 @@
     <% end %>
 
     <% unless curation %>
-      <span data-offline-hide>
-        <%= button_to favourite_article_path(article),
-            method: :patch,
-            class: "position-absolute top-0 end-0 m-2 p-0 border-0 bg-transparent text-white",
-            form: { style: "display: inline;" } do %>
-          <span class="badge rounded-3 bg-light border"  style="width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center;">
-            <i class="fa<%= article.favourited? ? '-solid' : '-regular' %> fa-heart text-muted fa-lg"></i>
-          </span>
-        <% end %>
+      <span data-offline-hide class="position-absolute top-0 end-0 m-2">
+        <%= render 'shared/buttons/button_favourite', article: article %>
       </span>
     <% end %>
   </div>
@@ -33,28 +26,11 @@
   <div class="card-footer bg-white border-top d-flex justify-content-end gap-2">
     <% if curation %>
       <% bookmark = Bookmark.find_by(article_id: article.id, curation_id: curation.id) %>
-      <%= button_to bookmark_path(bookmark),
-            method: :delete,
-            class: "btn btn-link btn-sm p-0 text-decoration-none",
-            form: { data: { turbo_confirm: 'Remove from curation?' }, style: "display: inline;" } do %>
-        <i class="fa-solid fa-circle-minus"></i>
-      <% end %>
+      <%= render 'shared/buttons/button_remove_from_curation', bookmark: bookmark %>
     <% else %>
-      <span data-offline-hide>
-        <%= button_to archive_article_path(article),
-            method: :patch,
-            class: "btn btn-link p-1 text-decoration-none text-dark",
-            form: { style: "display: inline;" } do %>
-          <i class="fa-<%= article.archived? ? "solid" : "regular" %> fa-circle-check"></i>
-        <% end %>
-
-
-        <%= button_to article_path(article),
-            method: :delete,
-            class: "btn btn-link p-1 text-decoration-none text-dark",
-            form: { data: { turbo_confirm: 'Are you sure?' }, style: "display: inline;" } do %>
-          <i class="fa-solid fa-trash"></i>
-        <% end %>
+      <span data-offline-hide class="d-flex gap-2">
+        <%= render 'shared/buttons/button_archive', article: article %>
+        <%= render partial: 'shared/buttons/button_delete', locals: { path: article_path(article), confirm: 'Delete this article?' } %>
       </span>
       <span class="d-none text-muted small" data-offline-show>
         <i class="fa-solid fa-cloud-slash me-1"></i> Offline

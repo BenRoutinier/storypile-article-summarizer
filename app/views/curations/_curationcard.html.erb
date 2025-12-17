@@ -1,20 +1,9 @@
 <div class="w-100">
   <div data-controller="toggle-form">
     <div class="position-relative h-100" data-toggle-form-target="display">
-      <div class="position-absolute top-0 end-0 m-2 d-flex gap-2">
-        <button type="button"
-                class="px-1 rounded-3 border-0 text-black z-3 mobile-action-btn"
-                style="background: transparent"
-                data-action="click->toggle-form#toggle">
-          <i class="fa-solid fa-pen"></i>
-        </button>
-
-        <%= link_to curation_path(curation),
-            data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },
-            class: "px-1 rounded-3 border-0 text-black z-3 mobile-action-btn",
-            style: "background: transparent" do %>
-          <i class="fa-solid fa-trash"></i>
-        <% end %>
+      <div class="position-absolute top-0 end-0 m-2 d-flex gap-2 z-3">
+        <%= render 'shared/buttons/button_edit_toggle' %>
+        <%= render partial: 'shared/buttons/button_delete', locals: { path: curation_path(curation), confirm: 'Delete this curation?' } %>
       </div>
 
       <%= link_to curation_path(curation), class: "text-decoration-none text-reset" do %>
