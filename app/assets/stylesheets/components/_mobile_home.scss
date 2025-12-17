@@ -27,18 +27,30 @@
     text-align: center;
     color: black;
     padding: 0 0.25rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.05rem;
   }
 
+
+  @media (max-width: 414px) {
   .mobile-logo {
     display: block;
-    margin: 2rem auto 0.25rem auto;
-    width: 140px;
+    margin: 2rem auto 0.25rem;
+    width: clamp(96px, 18vw, 150px);
     height: auto;
+    }
+  }
+
+
+  @media (min-width: 414px) {
+  .mobile-logo {
+    display: block;
+    margin: 2rem auto 0.25rem;
+    width: clamp(120px, 22vw, 190px);
+    }
   }
 
   .mobile-tagline {
-    font-size: 1.15rem;
+    font-size: clamp(1.15rem, 3.5vw, 1.45rem);
     font-weight: 600;
     line-height: 1.4;
     opacity: 0.95;
