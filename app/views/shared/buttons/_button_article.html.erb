@@ -1,5 +1,5 @@
 <%# Usage: render 'shared/buttons/button_article', article: article %>
-<%= link_to article_path(article), class: "btn p-0 border-0 bg-transparent", title: "View full article", data: { turbo_frame: "_top" } do %>
+<%= link_to article_path(article, anchor: "full-article"), class: "btn p-0 border-0 bg-transparent", title: "View full article", data: { turbo_frame: "_top" } do %>
   <span class="d-inline-flex align-items-center justify-content-center rounded-circle bg-success text-white" style="width: 32px; height: 32px;">
     <i class="fa-solid fa-newspaper"></i>
   </span>
