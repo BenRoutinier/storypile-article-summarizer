@@ -1,7 +1,29 @@
-<div class="container my-5 text-center" style="max-width: 700px;">
+
+<!-- Desktop Page for StoryPile Application -->
+<div class="container my-5 text-center d-none d-md-block" style="max-width: 700px;">
   <h1 class="mb-3">StoryPile</h1>
   <p class="lead mb-4">
     Save articles, get AI-powered summaries, and keep your reading organized across devices.
   </p>
   <%= link_to "Sign up", new_user_registration_path, class: "btn btn-primary btn-lg" %>
+</div>
+
+<!-- Mobile Page for StoryPile Application -->
+<div class="mobile-auth d-md-none">
+  <div class="mobile-auth-content">
+    <%= image_tag "storypile-logo-white.png", class: "mobile-logo" %>
+    <p class="mobile-tagline">
+      Save articles, get AI-powered summaries, and keep your reading organized across devices.
+    </p>
+  </div>
+
+  <div class="mobile-auth-actions">
+    <div class="mobile-auth-buttons">
+    <%= link_to "Sign up", new_user_registration_path,
+        class: "mobile-auth-btn mobile-auth-btn--left" %>
+
+    <%= link_to "Log in", new_user_session_path,
+        class: "mobile-auth-btn mobile-auth-btn--right" %>
+    </div>
+  </div>
 </div>
