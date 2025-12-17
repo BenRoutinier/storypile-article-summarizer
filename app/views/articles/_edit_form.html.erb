@@ -1,0 +1,37 @@
+<%= simple_form_for(article, html: { class: "d-flex flex-column gap-3", data: { turbo: false } }) do |f| %>
+  <%= f.input :tags,
+              label: "Tags (comma-separated)",
+              input_html: { placeholder: "news, politics, tech" } %>
+
+  <div>
+    <label class="form-label">Add to Curations</label>
+    <div class="form-check-group">
+      <% current_user.curations.each do |curation| %>
+        <div class="form-check">
+          <%= check_box_tag "article[curation_ids][]", curation.id, article.curations.include?(curation),
+              id: "article_curation_ids_#{curation.id}",
+              class: "form-check-input" %>
+          <%= label_tag "article_curation_ids_#{curation.id}", curation.title,
+              class: "form-check-label" %>
+        </div>
+      <% end %>
+      <% if current_user.curations.empty? %>
+        <p class="text-muted small">No curations yet. Create one from the Curations page.</p>
+      <% end %>
+    </div>
+  </div>
+
+  <%= f.input :summary_prompt_id,
+              collection: current_user.summary_prompts,
+              label_method: :name,
+              value_method: :id,
+              include_blank: "None",
+              label: "Summary Prompt" %>
+
+  <div class="d-flex gap-2">
+    <%= f.button :submit, "Save Changes", class: "btn btn-primary" %>
+    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+      Cancel
+    </button>
+  </div>
+<% end %>
