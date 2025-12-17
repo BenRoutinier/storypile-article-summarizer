@@ -1,0 +1,85 @@
+@media (max-width: 768px) {
+
+  body.pages.home nav.navbar-lewagon {
+    display: none !important;
+  }
+
+  body.pages.home {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  body {
+    margin: 0;
+  }
+
+  .mobile-auth {
+    position: relative;
+    height: 100vh;
+    background: asset-url("mobile-auth-bg.png") center center / cover no-repeat;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+  }
+
+  .mobile-auth-content {
+    margin-top: auto;
+    text-align: center;
+    color: black;
+    padding: 0 0.25rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .mobile-logo {
+    display: block;
+    margin: 2rem auto 0.25rem auto;
+    width: 140px;
+    height: auto;
+  }
+
+  .mobile-tagline {
+    font-size: 1.15rem;
+    font-weight: 600;
+    line-height: 1.4;
+    opacity: 0.95;
+  }
+
+  .mobile-auth-actions {
+    padding-bottom: absolute;
+    left: 0;
+    right: 0;
+    bottom: env(safe-area-inset-bottom);
+    width: 100%;
+  }
+
+  .mobile-auth-buttons {
+    display: flex;
+    width: 100%;
+    margin-top: auto;
+  }
+
+  .mobile-auth-btn {
+    flex: 1;
+    text-align: center;
+    padding: 1rem 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-decoration: none;
+    border: 1px solid black;
+  }
+
+  /* LEFT BUTTON — success color, black text */
+  .mobile-auth-btn--left {
+    background-color: $success;
+    color: black;
+    border-top-right-radius: 16px;
+    border-right: none;
+  }
+
+  /* RIGHT BUTTON — white, black text */
+  .mobile-auth-btn--right {
+    background-color: white;
+    color: black;
+    border-top-left-radius: 16px;
+  }
+}
