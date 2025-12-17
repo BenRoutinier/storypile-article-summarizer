@@ -17,7 +17,7 @@
       <%= form_with url: update_tags_article_path(article), method: :patch, class: "d-flex gap-2 align-items-center" do |f| %>
         <%= f.text_field :tags, value: article.tags, class: "form-control form-control-sm", placeholder: "news, politics, tech", style: "max-width: 300px;" %>
         <%= f.submit "Save", class: "btn btn-primary btn-sm" %>
-        <button type="button" class="btn btn-outline-secondary btn-sm" data-action="click->toggle-form#toggle">Cancel</button>
+        <button type="button" class="btn btn-danger btn-sm" data-action="click->toggle-form#toggle">Cancel</button>
       <% end %>
     </div>
   </div>

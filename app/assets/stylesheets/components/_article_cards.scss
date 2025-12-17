@@ -36,12 +36,28 @@
 }
 
 .curation-pill {
-  background: $light-cappuccino !important;
+  background: $light-cappuccino;
   border-radius: 20px !important;
   padding: 0.5rem 1rem !important;
 
   &:hover {
     background-color: darken($light-cappuccino, 15%) !important;
+    }
+
+  a {
+    color: $black !important;
+    text-decoration: none;
+  }
+}
+
+.source-pill {
+  background: $eggshell;
+  border-radius: 20px !important;
+  padding: 0.5rem 1rem !important;
+  color: $black !important;
+
+  &:hover {
+    background-color: darken($eggshell, 15%) !important;
     }
 
   a {
