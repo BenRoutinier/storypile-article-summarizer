@@ -8,4 +8,10 @@ module ApplicationHelper
 
     "Navigate"
   end
+
+  def default_meta
+    DEFAULT_META
+  rescue NameError
+    YAML.load_file(Rails.root.join("config/meta.yml"))
+  end
 end
