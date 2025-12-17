@@ -36,12 +36,12 @@
 }
 
 .curation-pill {
-  background: $bright-yellow;
+  background: $light-cappuccino !important;
   border-radius: 20px !important;
   padding: 0.5rem 1rem !important;
 
   &:hover {
-    background-color: darken($bright-yellow, 15%) !important;
+    background-color: darken($light-cappuccino, 15%) !important;
     }
 
   a {
