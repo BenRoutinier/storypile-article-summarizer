@@ -370,7 +370,7 @@ export default class extends Controller {
           if (this.index < this.chunks.length) {
             setTimeout(() => {
               if (!this.isPaused && this.isPlaying) this.speak()
-            }, 100)
+            }, 25)
           } else {
             this.stop()
           }
