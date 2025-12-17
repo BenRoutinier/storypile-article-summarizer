@@ -5,7 +5,9 @@
     <div class="col overflow-hidden">
       <%= link_to article_path(article), class: "text-decoration-none text-reset" do %>
         <div class="p-2 pb-5">
-          <h6 class="card-title mb-1 line-clamp-2"><%= article.headline %></h6>
+          <h6 class="card-title mb-1" style="display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden;">
+            <%= article.headline %>
+          </h6>
           <small class="text-muted"><%= article.created_at.strftime("%B %d, %Y") %></small>
         </div>
       <% end %>
