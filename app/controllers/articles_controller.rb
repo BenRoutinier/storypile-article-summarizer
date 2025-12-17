@@ -1,7 +1,7 @@
 require 'open-uri'
 
 class ArticlesController < ApplicationController
-  before_action :set_article, only: [:card, :card_sm, :show, :destroy, :regenerate_summary, :archive, :favourite, :regenerate_summary, :update_summary_prompt, :update_tags]
+  before_action :set_article, only: [:card, :card_sm, :show, :destroy, :update, :regenerate_summary, :archive, :favourite, :regenerate_summary, :update_summary_prompt]
 
   def index
     set_articles
@@ -16,8 +16,6 @@ class ArticlesController < ApplicationController
   end
 
   def card
-    #set_article
-    # Renders just the article card partial for offline caching
     render partial: "articles/articlecard", locals: { article: @article }, layout: false
   end
 
@@ -26,7 +24,6 @@ class ArticlesController < ApplicationController
   end
 
   def show
-    # set_article
   end
 
   def search
@@ -66,20 +63,41 @@ class ArticlesController < ApplicationController
     end
   end
 
+  def update
+    if @article.update(article_params)
+      # Handle curation_ids - sync bookmarks
+      if params[:article].key?(:curation_ids)
+        submitted_ids = (params[:article][:curation_ids] || []).reject(&:blank?).map(&:to_i)
+        current_ids = @article.curation_ids
+
+        # Remove bookmarks for unchecked curations
+        (current_ids - submitted_ids).each do |curation_id|
+          @article.bookmarks.find_by(curation_id: curation_id)&.destroy
+        end
+
+        # Add bookmarks for newly checked curations
+        (submitted_ids - current_ids).each do |curation_id|
+          Bookmark.create(article: @article, curation_id: curation_id)
+        end
+      end
+
+      redirect_to @article, notice: 'Article updated successfully.'
+    else
+      render :show, status: :unprocessable_entity
+    end
+  end
+
   def archive
-    # set_article
     @article.update(archived: !@article.archived)
     redirect_back fallback_location: articles_path
   end
 
   def favourite
-    # set_article
     @article.update(favourited: !@article.favourited)
     redirect_back fallback_location: articles_path
   end
 
   def regenerate_summary
-    # set_article
     extra_instructions = params[:extra_instructions].to_s
 
     new_summary = @article.ai_summary(extra_instructions: extra_instructions)
@@ -89,22 +107,13 @@ class ArticlesController < ApplicationController
     render partial: "articles/summary", locals: { article: @article }
   end
 
-  def update_tags
-    # set_article
-    @article.update!(tags: params[:tags])
-    @article.reload
-    render partial: "articles/tags", locals: { article: @article }
-  end
-
   def update_summary_prompt
-    # set_article
     @article.update!(summary_prompt_id: params[:summary_prompt_id])
     @article.reload
     render partial: "articles/summary", locals: { article: @article }
   end
 
   def destroy
-    # set_article
     @article.destroy
     redirect_to articles_path, notice: "Article deleted"
   end

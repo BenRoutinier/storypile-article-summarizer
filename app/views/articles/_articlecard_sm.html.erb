@@ -1,10 +1,10 @@
 <% curation ||= nil %>
-<div class="card h-100 shadow-sm">
+<div class="card h-100 shadow-sm position-relative">
   <div class="row g-0 align-items-center flex-nowrap">
 
     <div class="col overflow-hidden">
       <%= link_to article_path(article), class: "text-decoration-none text-reset" do %>
-        <div class="p-2">
+        <div class="p-2 pb-5">
           <h6 class="card-title mb-1 line-clamp-2"><%= article.headline %></h6>
           <small class="text-muted"><%= article.created_at.strftime("%B %d, %Y") %></small>
         </div>
@@ -20,12 +20,6 @@
             <i class="fa-solid fa-newspaper text-muted"></i>
           </div>
         <% end %>
-
-        <% unless curation %>
-          <span data-offline-hide class="position-absolute top-0 end-0" style="margin: 4px;">
-            <%= render 'shared/buttons/button_favourite', article: article %>
-          </span>
-        <% end %>
       </div>
 
       <div class="d-flex gap-2 pt-2 mt-1">
@@ -33,6 +27,9 @@
           <% bookmark = Bookmark.find_by(article_id: article.id, curation_id: curation.id) %>
           <%= render 'shared/buttons/button_remove_from_curation', bookmark: bookmark %>
         <% else %>
+          <span data-offline-hide class="position-absolute bottom-0 start-0 m-2">
+            <%= render 'shared/buttons/button_favourite', article: article %>
+          </span>
           <span data-offline-hide class="d-flex gap-2">
             <%= render 'shared/buttons/button_archive', article: article %>
             <%= render partial: 'shared/buttons/button_delete', locals: { path: article_path(article), confirm: 'Delete this article?' } %>

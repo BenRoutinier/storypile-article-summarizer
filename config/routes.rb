@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
 
-  resources :articles, except: [:new, :edit, :update] do
+  resources :articles, except: [:new, :edit] do
     resources :bookmarks, only: [:create]
 
     member do
@@ -23,7 +23,6 @@ Rails.application.routes.draw do
       get :card
       get :card_sm
       patch :update_summary_prompt
-      patch :update_tags
       post :regenerate_summary
     end
 
