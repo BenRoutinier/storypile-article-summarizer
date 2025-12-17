@@ -1,0 +1,31 @@
+// Form input styling
+.form-control,
+.form-select,
+textarea.form-control {
+  background-color: $eggshell !important;
+  border-color: rgba(0, 0, 0, 0.1);
+
+  &:focus {
+    background-color: $eggshell !important;
+    border-color: $deep-coffee;
+    box-shadow: 0 0 0 0.2rem rgba($deep-coffee, 0.25);
+  }
+
+  &:disabled {
+    background-color: lighten($eggshell, 2%) !important;
+    opacity: 0.6;
+  }
+}
+
+// Checkboxes and radio buttons
+.form-check-input {
+  &:checked {
+    background-color: $deep-coffee;
+    border-color: $deep-coffee;
+  }
+
+  &:focus {
+    border-color: $deep-coffee;
+    box-shadow: 0 0 0 0.2rem rgba($deep-coffee, 0.25);
+  }
+}
