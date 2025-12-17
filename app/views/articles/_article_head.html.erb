@@ -25,19 +25,6 @@
       <% end %>
     <% end %>
 
-    <div class="dropdown" data-offline-hide>
-      <button class = "btn btn-warning dropdown-toggle"
-      type="button"
-      data-bs-toggle="dropdown"
-      aria-expanded="false">
-      Add to Curation
-      </button>
-      <ul class="dropdown-menu p-3" overflow-y: auto;>
-        <%= render "articles/curation_dropdown", article: article%>
-      </ul>
-    </div>
-  </div>
-
   <% if article.image_link.present? %>
     <div class="mb-3" style="aspect-ratio: 2/1; overflow: hidden;">
       <%= image_tag article.image_link, class: "w-100 h-100 object-fit-cover rounded" %>
