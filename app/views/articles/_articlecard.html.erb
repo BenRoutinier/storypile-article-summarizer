@@ -30,7 +30,7 @@
     <% else %>
       <span data-offline-hide class="d-flex gap-2">
         <%= render 'shared/buttons/button_archive', article: article %>
-        <%= render 'shared/buttons/button_delete', article: article %>
+        <%= render partial: 'shared/buttons/button_delete', locals: { path: article_path(article), confirm: 'Delete this article?' } %>
       </span>
       <span class="d-none text-muted small" data-offline-show>
         <i class="fa-solid fa-cloud-slash me-1"></i> Offline

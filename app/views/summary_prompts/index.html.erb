@@ -18,20 +18,10 @@
             <div class="col-12">
               <div class="card mb-3 p-3 shadow-sm bg-white" data-controller="toggle-form">
                 <div class="position-relative" data-toggle-form-target="display">
-                  <%= button_to summary_prompt_path(summary_prompt),
-                      method: :delete,
-                      class: "position-absolute bottom-0 end-0 m-2 px-1 rounded-3 border-0 text-black z-3 mobile-action-btn",
-                      style: "background: transparent",
-                      form: { data: { turbo_confirm: 'Are you sure?' } } do %>
-                    <i class="fa-solid fa-trash"></i>
-                  <% end %>
-
-                  <button type="button"
-                          class="position-absolute top-0 end-0 m-2 px-1 rounded-3 border-0 text-black z-3 mobile-action-btn"
-                          style="background: transparent"
-                          data-action="click->toggle-form#toggle">
-                    <i class="fa-solid fa-pen"></i>
-                  </button>
+                  <div class="position-absolute top-0 end-0 m-2 d-flex gap-2 z-3">
+                    <%= render 'shared/buttons/button_edit_toggle' %>
+                    <%= render partial: 'shared/buttons/button_delete', locals: { path: summary_prompt_path(summary_prompt), confirm: 'Delete this custom prompt?' } %>
+                  </div>
 
                   <h3><%= summary_prompt.name %></h3>
                   <p><%= summary_prompt.content %></p>
