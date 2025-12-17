@@ -1,0 +1,5 @@
+meta_product_name: "StoryPile"
+meta_title: "StoryPile - Your Article Collection"
+meta_description: "StoryPile is a tool that helps you collect and organize your articles."
+meta_image: "og-image.png" # should exist in `app/assets/images/` with dimensions 1200x630
+# twitter_account: "@product_twitter_account" # required for Twitter Cards
