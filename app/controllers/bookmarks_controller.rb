@@ -6,7 +6,8 @@ class BookmarksController < ApplicationController
     @bookmark = Bookmark.new(bookmark_params)
 
     if @bookmark.save
-      redirect_back fallback_location: articles_path, notice: "Article added to the list."
+      flash[:notice] = nil # Hide success message
+      redirect_back fallback_location: articles_path
     else
       redirect_back fallback_location: articles_path, alert: "Could not add article."
     end
