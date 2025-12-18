@@ -7,6 +7,7 @@
   right: 0;
   padding-top: env(safe-area-inset-top);
   z-index: 1000;
+  color: $black;
 }
 
 .navbar-lewagon.d-md-none .mobile-center-nav {
@@ -38,18 +39,34 @@
   width: 60px;
   height: auto;
   margin-top: 0.75rem;
+  // Ensures logo renders as black even if the PNG isn't pure black
+  filter: brightness(0) saturate(100%);
+}
+
+.navbar-lewagon a,
+.navbar-lewagon .nav-link,
+.navbar-lewagon .navbar-brand,
+.navbar-lewagon .dropdown-item,
+.navbar-lewagon .dropdown-toggle,
+.navbar-lewagon .dropdown-toggle::after {
+  color: $black !important;
 }
 
 .navbar-lewagon h2 a {
   text-decoration: none !important;
   font-family: 'Google Sans Flex', sans-serif;
-  color: #232929;
+  color: $black;
   font-weight: 600;
+}
+
+.navbar-lewagon.d-none.d-md-flex .navbar-title {
+  font-family: "Abril Fatface", serif !important;
+  font-weight: 400;
 }
 
 .menu-bar i {
   font-size: 30px;
-  color: #232929;
+  color: $black;
 }
 
 .mobile-nav-dropdown {
