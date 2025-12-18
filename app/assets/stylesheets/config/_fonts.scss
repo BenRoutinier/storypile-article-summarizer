@@ -1,9 +1,8 @@
-// Import Google fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito:400,700|Work+Sans:400,700&display=swap');
+// Google fonts are loaded via <link> tags in the layout (see `app/views/layouts/application.html.erb`)
 
 // Define fonts for body and headers
-$body-font: "Work Sans", "Helvetica", "sans-serif";
-$headers-font: "Nunito", "Helvetica", "sans-serif";
+$body-font: "Comme", "Helvetica", "sans-serif";
+$headers-font: "Google Sans Flex", "Helvetica", "sans-serif";
 
 // To use a font file (.woff) uncomment following lines
 // @font-face {
