@@ -1,12 +1,4 @@
-        <% curation ||= nil %>
-        <% articles.each do |article| %>
-          <div class="col-12 col-sm-4 d-none d-md-block">
-            <div class="article-card-wrapper">
-              <%= render "articles/articlecard", article: article, curation: curation %>
-            </div>
-          </div>
-
-          <div class="col-12 d-block d-md-none">
-            <%= render "articles/articlecard_sm", article: article, curation: curation %>
-          </div>
-        <% end %>
+<% curation ||= nil %>
+<% articles.each do |article| %>
+  <%= render "articles/article_item", article: article, curation: curation %>
+<% end %>

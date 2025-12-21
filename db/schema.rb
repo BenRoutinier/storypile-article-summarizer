@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_12_08_142516) do
+ActiveRecord::Schema[7.1].define(version: 2025_12_20_154848) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -28,6 +28,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_08_142516) do
     t.string "image_link"
     t.boolean "archived", default: false
     t.boolean "favourited", default: false
+    t.integer "status", default: 0
     t.index ["summary_prompt_id"], name: "index_articles_on_summary_prompt_id"
     t.index ["user_id"], name: "index_articles_on_user_id"
   end

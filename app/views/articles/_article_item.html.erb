@@ -1,0 +1,8 @@
+<div id="<%= dom_id article %>_item" class="col-12 col-sm-6 col-md-4">
+  <div class="article-card-wrapper d-none d-md-block">
+    <%= render "articles/articlecard", article: article, curation: local_assigns[:curation] %>
+  </div>
+  <div class="d-block d-md-none">
+    <%= render "articles/articlecard_sm", article: article, curation: local_assigns[:curation] %>
+  </div>
+</div>
