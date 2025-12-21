@@ -1,40 +1,74 @@
 <% curation ||= nil %>
-<div class="card shadow-sm">
-  <div class="position-relative" style="aspect-ratio: 2/1; overflow: hidden;">
-    <% if article.image_link.present? %>
-      <%= image_tag article.image_link, class: "w-100 h-100 object-fit-cover" %>
-    <% else %>
-      <div class="w-100 h-100 bg-light d-flex align-items-center justify-content-center">
-        <i class="fa-solid fa-newspaper text-muted fa-2x"></i>
+<% if article.processing? || article.pending? %>
+  <div class="card shadow-sm" aria-hidden="true">
+    <div class="position-relative bg-light d-flex align-items-center justify-content-center" style="aspect-ratio: 2/1; overflow: hidden;">
+      <div class="spinner-border text-secondary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+    <div class="card-body bg-white">
+      <h5 class="card-title placeholder-glow">
+        <span class="placeholder col-6"></span>
+      </h5>
+      <small class="text-muted placeholder-glow">
+        <span class="placeholder col-4"></span>
+      </small>
+    </div>
+    <div class="card-footer bg-white border-top">
+       <small class="text-muted">Processing...</small>
+    </div>
+  </div>
+<% elsif article.failed? %>
+  <div class="card shadow-sm border-danger">
+    <div class="position-relative bg-light d-flex align-items-center justify-content-center" style="aspect-ratio: 2/1; overflow: hidden;">
+       <i class="fa-solid fa-triangle-exclamation text-danger fa-2x"></i>
+    </div>
+    <div class="card-body bg-white">
+      <h5 class="card-title text-danger">Processing Failed</h5>
+      <p class="card-text small text-muted">We couldn't process this link.</p>
+    </div>
+    <div class="card-footer bg-white border-top d-flex justify-content-end gap-2">
+      <%= render partial: 'shared/buttons/button_delete', locals: { path: article_path(article), confirm: 'Delete this article?' } %>
+    </div>
+  </div>
+<% else %>
+  <div class="card shadow-sm">
+    <div class="position-relative" style="aspect-ratio: 2/1; overflow: hidden;">
+      <% if article.image_link.present? %>
+        <%= image_tag article.image_link, class: "w-100 h-100 object-fit-cover" %>
+      <% else %>
+        <div class="w-100 h-100 bg-light d-flex align-items-center justify-content-center">
+          <i class="fa-solid fa-newspaper text-muted fa-2x"></i>
+        </div>
+      <% end %>
+
+      <% unless curation %>
+        <span data-offline-hide class="position-absolute top-0 end-0 m-2">
+          <%= render 'shared/buttons/button_favourite', article: article %>
+        </span>
+      <% end %>
+    </div>
+
+    <%= link_to article_path(article), class: "text-decoration-none text-reset" do %>
+      <div class="card-body bg-white">
+        <h5 class="card-title mb-1"><%= article.headline %></h5>
+        <small class="text-muted">Created: <%= article.created_at.strftime("%B %d, %Y") %></small>
       </div>
     <% end %>
 
-    <% unless curation %>
-      <span data-offline-hide class="position-absolute top-0 end-0 m-2">
-        <%= render 'shared/buttons/button_favourite', article: article %>
-      </span>
-    <% end %>
-  </div>
-
-  <%= link_to article_path(article), class: "text-decoration-none text-reset" do %>
-    <div class="card-body bg-white">
-      <h5 class="card-title mb-1"><%= article.headline %></h5>
-      <small class="text-muted">Created: <%= article.created_at.strftime("%B %d, %Y") %></small>
+    <div class="card-footer bg-white border-top d-flex justify-content-end gap-2">
+      <% if curation %>
+        <% bookmark = Bookmark.find_by(article_id: article.id, curation_id: curation.id) %>
+        <%= render 'shared/buttons/button_remove_from_curation', bookmark: bookmark %>
+      <% else %>
+        <span data-offline-hide class="d-flex gap-2">
+          <%= render 'shared/buttons/button_archive', article: article %>
+          <%= render partial: 'shared/buttons/button_delete', locals: { path: article_path(article), confirm: 'Delete this article?' } %>
+        </span>
+        <span class="d-none text-muted small" data-offline-show>
+          <i class="fa-solid fa-cloud-slash me-1"></i> Offline
+        </span>
+      <% end %>
     </div>
-  <% end %>
-
-  <div class="card-footer bg-white border-top d-flex justify-content-end gap-2">
-    <% if curation %>
-      <% bookmark = Bookmark.find_by(article_id: article.id, curation_id: curation.id) %>
-      <%= render 'shared/buttons/button_remove_from_curation', bookmark: bookmark %>
-    <% else %>
-      <span data-offline-hide class="d-flex gap-2">
-        <%= render 'shared/buttons/button_archive', article: article %>
-        <%= render partial: 'shared/buttons/button_delete', locals: { path: article_path(article), confirm: 'Delete this article?' } %>
-      </span>
-      <span class="d-none text-muted small" data-offline-show>
-        <i class="fa-solid fa-cloud-slash me-1"></i> Offline
-      </span>
-    <% end %>
   </div>
-</div>
+<% end %>

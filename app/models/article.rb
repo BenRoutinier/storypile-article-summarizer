@@ -1,5 +1,3 @@
-require 'nokogiri'
-
 class Article < ApplicationRecord
   include PgSearch::Model
 
@@ -11,6 +9,8 @@ class Article < ApplicationRecord
 
   attr_accessor :curation_id
 
+  enum status: { pending: 0, processing: 1, completed: 2, failed: 3 }
+
   validates :link,
             presence: true,
             uniqueness: { scope: :user_id },
@@ -19,9 +19,20 @@ class Article < ApplicationRecord
               message: "must be a valid URL"
             }
 
-  before_validation :populate_from_link, on: :create
   before_validation :normalize_tags
-  after_create :create_initial_conversation
+
+  after_create_commit do
+    process_async
+    broadcast_prepend_to user, "articles", target: "articles_grid", partial: "articles/article_item", locals: { article: self }
+  end
+
+  after_update_commit do
+    broadcast_replace_to user, "articles", target: "#{self.class.name.underscore}_#{self.id}_item", partial: "articles/article_item", locals: { article: self }
+  end
+
+  after_destroy_commit do
+    broadcast_remove_to user, "articles", target: "#{self.class.name.underscore}_#{self.id}_item"
+  end
 
   pg_search_scope :search_fulltext,
                   against: [:headline, :subheadline, :body, :summary, :tags],
@@ -30,20 +41,20 @@ class Article < ApplicationRecord
                   }
 
   scope :with_tag, ->(tag) {
-  return none if tag.blank?
+    return none if tag.blank?
 
-  sanitized_tag = tag.strip.downcase
+    sanitized_tag = tag.strip.downcase
 
-  where(
-    "LOWER(tags) = :exact OR
-     LOWER(tags) LIKE :start OR
-     LOWER(tags) LIKE :end OR
-     LOWER(tags) LIKE :middle",
-    exact: sanitized_tag,
-    start: "#{sanitized_tag},%",
-    end: "%,#{sanitized_tag}",
-    middle: "%,#{sanitized_tag},%"
-    )
+    where(
+      "LOWER(tags) = :exact OR
+       LOWER(tags) LIKE :start OR
+       LOWER(tags) LIKE :end OR
+       LOWER(tags) LIKE :middle",
+      exact: sanitized_tag,
+      start: "#{sanitized_tag},%",
+      end: "%,#{sanitized_tag}",
+      middle: "%,#{sanitized_tag},%"
+      )
   }
 
   scope :archived_status, ->(status) {
@@ -75,41 +86,6 @@ class Article < ApplicationRecord
     user.articles.with_tag(tag).exists?
   end
 
-  def ai_summary(extra_instructions: "")
-    ai_prompt = <<~PROMPT
-      You are a professional media office assistant creating a news overview
-      for an exclusive client. Summarize the most important parts of the
-      following text for the client. Create a nutgraf in the style of the
-      associated press giving an overview of the whole story. Return the
-      text of your summary with no subheadings.
-      CORE RULES
-      You MUST use only information explicitly present in the article.
-      You MUST NOT use external knowledge.
-      You MUST NOT guess.
-      You MUST NOT interpret, speculate, or provide opinions.
-    PROMPT
-
-    prompt = <<~FINALPROMPT
-      #{ai_prompt}
-
-      #{self.summary_prompt_id ? "Also follow these custom instructions: #{SummaryPrompt.find(self.summary_prompt_id).content}" : ''}
-
-      #{extra_instructions.present? ? "Additional one-time instructions: #{extra_instructions}" : ''}
-    FINALPROMPT
-
-    begin
-      response = RubyLLM.chat.with_instructions(prompt).ask(self.body).content
-
-      if response.blank?
-        return "Summary could not be generated at this time."
-      end
-
-      response
-    rescue StandardError
-      "Summary could not be generated at this time."
-    end
-  end
-
   private
 
   def normalize_tags
@@ -117,89 +93,7 @@ class Article < ApplicationRecord
     self.tags = tags.split(',').map(&:strip).reject(&:empty?).join(',')
   end
 
-  def populate_from_link
-    return if link.blank?
-
-    parsed = parse_with_readability(link)
-
-    if parsed && parsed['error'].nil?
-      self.headline = parsed['title']&.strip.presence
-      self.subheadline = parsed['subheadline']&.strip.presence
-      self.image_link = parsed['image_link']&.strip.presence
-      self.body = set_body_from_html(parsed['content'])
-      Rails.logger.info("Readability succeeded")
-    else
-      Rails.logger.info("Readability failed, using Nokogiri fallback")
-      html = URI.open(link).read
-      set_headline_from_html(html)
-      set_subheadline_from_html(html)
-      set_image_link_from_html(html)
-      set_body_from_html(html)
-    end
-
-    self.summary = ai_summary
-  end
-
-  def parse_with_readability(url)
-    script_path = Rails.root.join('lib', 'scripts', 'parse_article.js')
-    result = `node #{script_path} #{Shellwords.escape(url)} 2>&1`
-    JSON.parse(result)
-  rescue JSON::ParserError, StandardError => e
-    Rails.logger.error("Readability parsing failed: #{e.message}")
-    nil
-  end
-
-  def create_initial_conversation
-    Conversation.create!(
-      title: headline,
-      article: self
-    )
-  end
-
-  def set_headline_from_html(html)
-    doc = Nokogiri::HTML(html)
-
-    h1 = doc.at('h1')
-
-    self.headline = h1.text.strip if h1
-  end
-
-  def set_body_from_html(html)
-    doc = Nokogiri::HTML(html)
-
-    article_tag = doc.at('article')
-
-    paragraphs = if article_tag
-                   article_tag.css('p')
-                 else
-                   doc.css('p')
-                 end
-
-    meaningful_paragraphs = paragraphs
-      .map(&:text)
-      .flat_map { |p| p.split(/\n+/) }
-      .map(&:strip)
-      .reject(&:empty?)
-      #.select { |p| p.match?(/[.?!]['"“”‘’„”«»]*\s*$/) }
-
-    self.body = meaningful_paragraphs.join("\n\n")
-  end
-
-  def set_subheadline_from_html(html)
-    doc = Nokogiri::HTML(html)
-
-    og_description = doc.at('meta[property="og:description"]')&.attr('content')
-    twitter_description = doc.at('meta[name="twitter:description"]')&.attr('content')
-
-    self.subheadline = (og_description || twitter_description)&.strip.presence
-  end
-
-  def set_image_link_from_html(html)
-    doc = Nokogiri::HTML(html)
-
-    og_image = doc.at('meta[property="og:image"]')&.attr('content')
-    twitter_image = doc.at('meta[name="twitter:image"]')&.attr('content')
-
-    self.image_link = (og_image || twitter_image)&.strip.presence
+  def process_async
+    ProcessArticleJob.perform_later(self.id)
   end
 end

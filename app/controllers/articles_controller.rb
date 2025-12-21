@@ -5,6 +5,7 @@ class ArticlesController < ApplicationController
 
   def index
     set_articles
+    @article = Article.new
   end
 
   def archived
@@ -56,7 +57,7 @@ class ArticlesController < ApplicationController
           )
         end
       end
-      redirect_to article_path(@article)
+      redirect_to articles_path
     else
       set_articles
       render "articles/index", status: :unprocessable_entity
